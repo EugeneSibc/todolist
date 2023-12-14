@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Button from './Button';
 
-export type FilterValueType = 'all' | 'active' | 'completed'
+export type FilterValueType = 'all' | 'active' | 'completed' | 'three'
 
 export type TaskType = {
     id: number
@@ -31,7 +31,7 @@ export function Todolist(props: TodoListPropsType) {
     const listItem: Array<JSX.Element> = props.tasks.map((task) => {
         return (
             <li key={task.id}>
-                <input type="checkbox" defaultChecked={task.isDone} />
+                <input type="checkbox" defaultChecked={task.isDone}/>
                 <span>{task.title}</span>
                 <Button title="✖️"
                     onClickHandler={() => { props.removeTask(task.id) }} />
