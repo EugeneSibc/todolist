@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Button from './Button';
 
-export type FilterValueType = 'all' | 'active' | 'completed'
+type FilterValueType = 'all' | 'active' | 'completed' | 'trio'
 
-export type TaskType = {
+type TaskType = {
     id: number
     title: string
     isDone: boolean
@@ -14,7 +14,7 @@ type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (taskId: number) => void
-    changeFilter: (value: FilterValueType) => void
+    deleteAllTasks: () => void
 }
 
 export function Todolist(props: TodoListPropsType) {
@@ -28,7 +28,37 @@ export function Todolist(props: TodoListPropsType) {
     // listItems.push(listItem)
     // }
 
-    const listItem: Array<JSX.Element> = props.tasks.map((task) => {
+    const [filterValue, setFilterValue] = useState<FilterValueType>('all')
+
+    // let tasksForTodolist = filterValue === 'active'
+    //     ? tasks.filter(task => task.isDone === false)
+    //     : filterValue === 'completed'
+    //         ? tasks.filter(task => task.isDone === true)
+    //         : tasks
+
+    // let tasksForTodolist = tasks
+    // if (filterValue === 'active') {
+    //     tasksForTodolist = tasks.filter(task => task.isDone === false)
+    // }
+    // if (filterValue === 'completed') {
+    //     tasksForTodolist = tasks.filter(task => task.isDone === true)
+    // }
+
+    const getFilteredTasks = (tasks: Array<TaskType>, filterValue: FilterValueType): Array<TaskType> => {
+        return filterValue === 'active'
+            ? tasks.filter(task => task.isDone === false)
+            : filterValue === 'completed'
+                ? tasks.filter(task => task.isDone === true)
+                : filterValue === 'trio'
+                    ? tasks.filter(t => t.id <= 3)
+                    : tasks
+    }
+
+    const changeFilter = (filterValue: FilterValueType) => {
+        setFilterValue(filterValue)
+    }
+
+    const listItem: Array<JSX.Element> = getFilteredTasks(props.tasks, filterValue).map((task) => {
         return (
             <li key={task.id}>
                 <input type="checkbox" defaultChecked={task.isDone} />
@@ -38,7 +68,7 @@ export function Todolist(props: TodoListPropsType) {
             </li>
         )
     })
-    
+
     const taskList: JSX.Element = props.tasks.length !== 0
         ? <ul>{listItem}</ul>
         : <span>Tasks list is empty</span>
@@ -55,12 +85,16 @@ export function Todolist(props: TodoListPropsType) {
             </ul>
             <div>
                 <Button title="All"
-                    onClickHandler={() => { props.changeFilter('all') }} />
+                    onClickHandler={() => { changeFilter('all') }} />
                 <Button title="Active"
-                    onClickHandler={() => { props.changeFilter('active') }} />
+                    onClickHandler={() => { changeFilter('active') }} />
                 <Button title="Completed"
-                    onClickHandler={() => { props.changeFilter('completed') }} />
+                    onClickHandler={() => { changeFilter('completed') }} />
+                <Button title="Trio"
+                    onClickHandler={() => { changeFilter('trio') }} />
             </div>
+            <Button title="Delete All Tasks"
+                onClickHandler={() => { props.deleteAllTasks() }} />
         </div>
     );
 }
