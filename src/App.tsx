@@ -20,18 +20,17 @@ function App() {
         console.log(tasks)
     }
 
-    const checkTask = (taskId: string) => {
+    /*const checkTask = (taskId: string) => {
         setTasks(tasks.map((task)=>{
             if(task.id === taskId) !task.isDone
             return(
                 task
             )
         }))
-    }
-    // onClickButtonHandler = () => {
-    //     addTasks(title)
-
-    // }
+    }*/
+    /*onClickButtonHandler = () => {
+        addTasks(title)
+    }*/
 
     const removeTask = (taskId: string) => {
         setTasks(tasks.filter(t => t.id !== taskId))        
@@ -78,7 +77,7 @@ function App() {
                     removeTask={removeTask} 
                     changeFilter={changeFilter}
                     addTasks = {addTasks}
-                    checkTask = {checkTask}
+                    // checkTask = {checkTask}
             />
         </div>
     );
