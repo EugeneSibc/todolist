@@ -1,20 +1,23 @@
-import React from 'react';
-import './App.css';
-import Button from './Button';
+import React, { useState } from 'react';
+import './../../App.css';
+import Button from '../button/Button';
+import { Input } from '../input/Input';
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'three'
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
 
 type TodoListPropsType = {
-    title: string
+    theme: string
     tasks: Array<TaskType>
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string) => void
     changeFilter: (value: FilterValueType) => void
+    addTasks:(title:string) => void
+    checkTask: (taskId: string) => void
 }
 
 export function Todolist(props: TodoListPropsType) {
@@ -29,26 +32,42 @@ export function Todolist(props: TodoListPropsType) {
     // }
 
     const listItem: Array<JSX.Element> = props.tasks.map((task) => {
+        const onClickCheckedInput = () => {
+            props.checkTask(task.id)
+        }
+        const onClickRemoveTaskInput = () => {
+            props.removeTask(task.id)
+        }
         return (
             <li key={task.id}>
-                <input type="checkbox" defaultChecked={task.isDone}/>
+                <input type="checkbox" defaultChecked={task.isDone} onClick={onClickCheckedInput}/>
                 <span>{task.title}</span>
                 <Button title="✖️"
-                    onClickHandler={() => { props.removeTask(task.id) }} />
+                    onClickHandler={onClickRemoveTaskInput} />
             </li>
         )
-    })
-    
+    })   
+
     const taskList: JSX.Element = props.tasks.length !== 0
         ? <ul>{listItem}</ul>
         : <span>Tasks list is empty</span>
+    
+    const [title, setTitle] = useState('')
+
+    const onClickAddTitleHandler = () => {
+        props.addTasks(title)
+        setTitle('')
+    } 
+    
 
     return (
         <div className="todolist">
-            <h3>{props.title}</h3>
+            <h3>{props.theme}</h3>
             <div>
-                <input />
-                <button>"+"</button>
+                <Input title={title}
+                    setTitle={setTitle}/>
+                <Button title={'+'}
+                        onClickHandler={onClickAddTitleHandler}/>
             </div>
             <ul>
                 {taskList}

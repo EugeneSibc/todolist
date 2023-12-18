@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
 import './App.css';
-import { FilterValueType, TaskType, Todolist } from './Todolist';
+import { FilterValueType, TaskType, Todolist } from './components/todolist/Todolist';
+import { v1 } from 'uuid';
 
 function App() {
 
     const [tasks, setTasks] = useState([
-        {id:1, title:"HTML&CSS", isDone:true},
-        {id:2, title:"JS/TS", isDone:true},
-        {id:3, title:"ReactJS", isDone:true},
-        {id:4, title:"Redux", isDone:false},
-        {id:5, title:"Rest API", isDone:false},
-        {id:6, title:"GraphQL", isDone:false},
+        {id:v1(), title:"HTML&CSS", isDone:true},
+        {id:v1(), title:"JS/TS", isDone:true},
+        {id:v1(), title:"ReactJS", isDone:true},
+        {id:v1(), title:"Redux", isDone:false},
+        {id:v1(), title:"Rest API", isDone:false},
+        {id:v1(), title:"GraphQL", isDone:false},
     ])    
 
-    const removeTask = (taskId: number) => {
+    const addTasks = (title: string) => {
+        let addTitle = {id:v1(), title, isDone:false}
+        setTasks([...tasks, addTitle])
+        console.log(tasks)
+    }
+
+    const checkTask = (taskId: string) => {
+        setTasks(tasks.map((task)=>{
+            if(task.id === taskId) !task.isDone
+            return(
+                task
+            )
+        }))
+    }
+    // onClickButtonHandler = () => {
+    //     addTasks(title)
+
+    // }
+
+    const removeTask = (taskId: string) => {
         setTasks(tasks.filter(t => t.id !== taskId))        
     }
     
@@ -50,15 +70,15 @@ function App() {
         setFilterValue(filterValue)
     }
 
-
-
     return (
         <div className="App">
-            <Todolist title="What to learn"
+            <Todolist theme="What to learn"
                     tasks={getFilteredTasks(tasks, filterValue)}
                     // tasks={tasksForTodolist}
                     removeTask={removeTask} 
                     changeFilter={changeFilter}
+                    addTasks = {addTasks}
+                    checkTask = {checkTask}
             />
         </div>
     );
