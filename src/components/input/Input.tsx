@@ -10,8 +10,8 @@ export const Input = (props:InputPropsType) => {
     const onChangeInputHandler = (event:ChangeEvent<HTMLInputElement>)=>{
         props.setTitle(event.currentTarget.value)
     }
-    const addTaskOnKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-        if(event.key === "Enter"){
+    const addTaskKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+        if(event.key === "Enter" && props.title){
             props.addTasks()
         }
     }
@@ -19,7 +19,7 @@ export const Input = (props:InputPropsType) => {
         <>
             <input value={props.title}
                    onChange={onChangeInputHandler}
-                   onKeyPress={addTaskOnKeyPress}
+                   onKeyDown={addTaskKeyDown}
                     />
         </>
     );

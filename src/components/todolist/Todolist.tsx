@@ -60,8 +60,11 @@ export function Todolist(props: TodoListPropsType) {
     //         let newTaskTitle = taskTitleInput.current.value
     //         props.addTasks(newTaskTitle)
     //         taskTitleInput.current.value = ''
-    // }
-        props.addTasks(title)
+    //     }
+        const trimmedTaskTitle = title.trim()
+        trimmedTaskTitle 
+        ? props.addTasks(title) 
+        : alert('Введи значение!')
         setTitle('')
     }
     const onAllClickHandler = () => {
@@ -81,9 +84,10 @@ export function Todolist(props: TodoListPropsType) {
                 {/*<input ref={taskTitleInput}/>*/}
                 <Input title={title}
                     setTitle={setTitle}
-                       addTasks={onClickAddTitleHandler}/>
+                    addTasks={onClickAddTitleHandler}/>
                 <Button title={'+'}
-                        onClickHandler={onClickAddTitleHandler}/>
+                    onClickHandler={onClickAddTitleHandler}
+                    isDisabled={!title}/>
             </div>
             <ul>
                 {taskList}
