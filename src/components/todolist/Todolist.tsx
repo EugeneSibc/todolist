@@ -1,7 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState, KeyboardEvent } from 'react';
 import './../../App.css';
 import Button from '../button/Button';
 import { Input } from '../input/Input';
+import autoAnimate from '@formkit/auto-animate'
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'three'
 
@@ -16,7 +17,7 @@ type TodoListPropsType = {
     tasks: Array<TaskType>
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValueType) => void
-    addTasks:(title:string) => void
+    addTasks: (title: string) => void
     // checkTask: (taskId: string) => void
 }
 
@@ -32,9 +33,9 @@ export function Todolist(props: TodoListPropsType) {
     // }
 
     const listItem: Array<JSX.Element> = props.tasks.map((task) => {
-       /* const onClickCheckedInput = () => {
-            props.checkTask(task.id)
-        }*/
+        /* const onClickCheckedInput = () => {
+             props.checkTask(task.id)
+         }*/
         const onClickRemoveTaskInput = () => {
             props.removeTask(task.id)
         }
@@ -46,27 +47,26 @@ export function Todolist(props: TodoListPropsType) {
                     onClickHandler={onClickRemoveTaskInput} />
             </li>
         )
-    })   
+    })
 
     const taskList: JSX.Element = props.tasks.length !== 0
         ? <ul>{listItem}</ul>
         : <span>Tasks list is empty</span>
-    
-    const [title, setTitle] = useState('')
-    // const taskTitleInput = useRef<HTMLInputElement>(null)
 
-    const onClickAddTitleHandler = () => {
+    // const [title, setTitle] = useState('')
+
+    // const onClickAddTitleHandler = () => {
     //     if(taskTitleInput.current){
-    //         let newTaskTitle = taskTitleInput.current.value
-    //         props.addTasks(newTaskTitle)
-    //         taskTitleInput.current.value = ''
+    //        let newTaskTitle = taskTitleInput.current.value
+    //        props.addTasks(newTaskTitle)
+    //        taskTitleInput.current.value = ''
     //     }
-        const trimmedTaskTitle = title.trim()
-        trimmedTaskTitle 
-        ? props.addTasks(title) 
-        : alert('Введи значение!')
-        setTitle('')
-    }
+    //     const trimmedTaskTitle = title.trim()
+    //     trimmedTaskTitle 
+    //     ? props.addTasks(title) 
+    //     : alert('Введи значение!')
+    //     setTitle('')
+    // }
     const onAllClickHandler = () => {
         props.changeFilter('all')
     }
@@ -76,20 +76,51 @@ export function Todolist(props: TodoListPropsType) {
     const onCompletedClickHandler = () => {
         props.changeFilter('completed')
     }
+    // const [listRef] = useAutoAnimate<HTMLUListElement>()
+    const taskTitleInput = useRef<HTMLInputElement>(null)
+
+
+    const onClickAddTitleHandler = () => {
+        if (taskTitleInput.current) {
+            let newTaskTitle = taskTitleInput.current.value
+
+            const trimmedTaskTitle = newTaskTitle.trim()
+            trimmedTaskTitle
+                ? props.addTasks(newTaskTitle)
+                : alert('Введи значение!')
+            taskTitleInput.current.value = ''
+        }
+
+    }
+
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (taskTitleInput.current) {
+            let newTaskTitle = taskTitleInput.current.value
+            if (event.key === "Enter" && newTaskTitle) {
+                const trimmedTaskTitle = newTaskTitle.trim()
+                trimmedTaskTitle
+                    ? props.addTasks(newTaskTitle)
+                    : alert('Введи значение!')
+                taskTitleInput.current.value = ''
+            }
+        }
+    }
 
     return (
         <div className="todolist">
             <h3>{props.theme}</h3>
             <div>
-                {/*<input ref={taskTitleInput}/>*/}
-                <Input title={title}
+                <input ref={taskTitleInput}
+                    onKeyDown={onKeyPressHandler} />
+                {/* <Input title={title}
                     setTitle={setTitle}
-                    addTasks={onClickAddTitleHandler}/>
+                    addTasks={onClickAddTitleHandler}/> */}
                 <Button title={'+'}
                     onClickHandler={onClickAddTitleHandler}
-                    isDisabled={!title}/>
+                // isDisabled={!newTaskTitle} 
+                />
             </div>
-            <ul>
+            <ul >
                 {taskList}
             </ul>
             <div>
@@ -103,3 +134,7 @@ export function Todolist(props: TodoListPropsType) {
         </div>
     );
 }
+function useAutoAnimate<T>(): [any] {
+    throw new Error('Function not implemented.');
+}
+
