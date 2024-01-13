@@ -10,18 +10,6 @@ type TodolistsType = {
 }
 
 function App() {
-    // const [tasks, setTasks] = useState(
-    //     [
-    //         { id: v1(), title: "HTML&CSS", isDone: true },
-    //         { id: v1(), title: "JS/TS", isDone: true },
-    //         { id: v1(), title: "ReactJS", isDone: true },
-    //         { id: v1(), title: "Redux", isDone: false },
-    //         { id: v1(), title: "Rest API", isDone: false },
-    //         { id: v1(), title: "GraphQL", isDone: false },
-    //     ]
-    // )
-    // const [filterValue, setFilterValue] = useState<FilterValueType>('all')
-
     let todolistID1 = v1()
     let todolistID2 = v1()
 
@@ -43,7 +31,6 @@ function App() {
         ]
     })
 
-
     const addTasks = (todolistId: string, title: string) => {
         let task = { id: v1(), title, isDone: false }
         let todolistTasks = tasks[todolistId]
@@ -57,16 +44,7 @@ function App() {
         setTasks({...tasks})
     }
 
-    // const getFilteredTasks = (tasks: Array<TaskType>, filterValue: FilterValueType): Array<TaskType> => {
-    //     return filterValue === 'active'
-    //         ? tasks.filter(task => !task.isDone)
-    //         : filterValue === 'completed'
-    //             ? tasks.filter(task => task.isDone)
-    //             : tasks
-    // }
-
     const changeFilter = (todolistId: string, filterValue: FilterValueType) => {
-        // setFilterValue(filterValue)
         let todolist = todolists.find(el=>el.id === todolistId)
         if(todolist){
             todolist.filter = filterValue
@@ -75,8 +53,6 @@ function App() {
     }   
 
     const changeTaskStatus = (todolistId: string, taskId: string, newIsDoneValue: boolean) => {
-        // const nextState: Array<TaskType> = tasks.map((t: TaskType) => (
-        //     t.id === taskId ? { ...t, isDone: newIsDoneValue } : t))
         let todolistTasks = tasks[todolistId]
         let task = todolistTasks.find(task => task.id === taskId)
         if(task) task.isDone = newIsDoneValue
@@ -92,8 +68,6 @@ function App() {
     return (
         <div className="App">
             {todolists.map(todolist => {
-                
-
                 return (
                     <Todolist key={todolist.id}
                         todolistId={todolist.id}
