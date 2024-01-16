@@ -1,6 +1,7 @@
 import React, { useRef, useState, KeyboardEvent, ChangeEvent } from 'react';
 import Button from '../button/Button';
 import { AddItemForm } from '../AddItemForm';
+import { EditableSpan } from '../EditableSpan';
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 
@@ -24,6 +25,8 @@ type TodoListPropsType = {
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     filterValue: FilterValueType
     removeTodolist: (todolistId: string) => void
+    changeItem: (todolistId: string, taskId: string, title: string) => void
+    changeTodosTitle: (todolistId: string, title: string) => void
 }
 
 export function Todolist(props: TodoListPropsType) {
@@ -46,22 +49,26 @@ export function Todolist(props: TodoListPropsType) {
         const onClickRemoveTaskInput = () => {
             props.removeTask(props.todolistId, task.id)
         }
+        const changeItemHandler = (title:string) => {
+            props.changeItem(props.todolistId, task.id, title)
+        }
         return (
             <li key={task.id}
                 className={task.isDone ? 'is-done' : ''}>
                 <input type="checkbox"
                     checked={task.isDone}
                     onChange={onChangeHandler} />
-                <span>{task.title}</span>
+                <EditableSpan globalTitle={task.title}
+                    callBack={changeItemHandler}/>
                 <Button title="✖️"
                     onClickHandler={onClickRemoveTaskInput} />
             </li>
         )
     })
 
-    const taskList: JSX.Element = tasksForTodolist.length !== 0
-        ? <ul>{listItem}</ul>
-        : <span>Tasks list is empty</span>
+    // const taskList: JSX.Element = tasksForTodolist.length !== 0
+    //     ? <ul>{listItem}</ul>
+    //     : <span>Tasks list is empty</span>
     
     const onAllClickHandler = () => {
         props.changeFilter(props.todolistId, 'all')
@@ -78,17 +85,22 @@ export function Todolist(props: TodoListPropsType) {
     const addItemHandler = (title: string) => {
         props.addTasks(props.todolistId, title)
     }
+    const changeThemeHandler = (title: string, ) => {
+        props.changeTodosTitle(props.todolistId, title)
+    }
 
     return (
         <div className="todolist">
             <div className="block">
-                <h3>{props.theme}</h3>
+                <h3><EditableSpan globalTitle={props.theme}
+                    callBack={changeThemeHandler}/></h3>
                 <Button title="✖️"
                     onClickHandler={onClickRemoveTodolist} />
             </div>
             <AddItemForm callBack={addItemHandler}/>
             <ul>
-                {taskList}
+                {/* {taskList} */}
+                {listItem}
             </ul>
             <div>
                 <Button title="All"
