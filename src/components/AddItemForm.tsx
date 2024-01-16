@@ -6,7 +6,7 @@ type AddItemsFormProps = {
 
 export const AddItemForm = (props:AddItemsFormProps) => {
 
-    let [title, setTitle] = useState('')
+    const [title, setTitle] = useState('')
     const [error, setError] = useState(false)
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,10 +14,13 @@ export const AddItemForm = (props:AddItemsFormProps) => {
         setTitle(event.currentTarget.value)
     }
     const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter" && title.trim() !== '') {
+        if(title.trim() !== ''){
+            if (event.key === "Enter" && title) {
                 props.callBack(title.trim())
                 setTitle('')
-        } else {
+            } 
+        }
+         else {
             setError(true)
             // setTitle('') если обнулять title здесь   
         }    
@@ -37,6 +40,7 @@ export const AddItemForm = (props:AddItemsFormProps) => {
             <input value={title}
                    onChange={onChangeHandler}
                    onKeyDown={onKeyDownHandler}
+                //    onBlur={alert('HeHoHyyyu')}
                    className={error ? 'error' : ''}
             />
             <button onClick={onClickHandler}>+</button>
