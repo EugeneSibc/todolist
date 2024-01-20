@@ -2,23 +2,12 @@ import React, { useRef, useState, KeyboardEvent, ChangeEvent } from 'react';
 import Button from '../button/Button';
 import { AddItemForm } from '../AddItemForm';
 import { EditableSpan } from '../EditableSpan';
-
-export type FilterValueType = 'all' | 'active' | 'completed'
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-
-export type TaskStateTupe = {
-    [key: string]: Array<TaskType>
-}
+import { FilterValueType, TaskType } from '../../App';
 
 type TodoListPropsType = {
     todolistId: string
     theme: string
-    tasks: TaskStateTupe
+    tasks: TaskType[]
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolistId: string, value: FilterValueType) => void
     addTasks: (todolistId: string, title: string) => void
@@ -30,18 +19,15 @@ type TodoListPropsType = {
 }
 
 export function Todolist(props: TodoListPropsType) {
-    let allTodolistTasks = props.tasks[props.todolistId]
-    let tasksForTodolist = allTodolistTasks
-
+    let newFilteredTasks  = props.tasks    
     if (props.filterValue === 'active') {
-        tasksForTodolist = allTodolistTasks.filter(task => !task.isDone)
+        newFilteredTasks = props.tasks.filter(el => el.isDone === false)
     }
     if (props.filterValue === 'completed') {
-        tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
+        newFilteredTasks = props.tasks.filter(el => el.isDone === true)
     }
 
-
-    const listItem: Array<JSX.Element> = tasksForTodolist.map((task) => {
+    const listItem: Array<JSX.Element> = newFilteredTasks.map((task) => {
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             let newIsDoneValue = e.currentTarget.checked
             props.changeTaskStatus(props.todolistId, task.id, newIsDoneValue)
@@ -49,7 +35,7 @@ export function Todolist(props: TodoListPropsType) {
         const onClickRemoveTaskInput = () => {
             props.removeTask(props.todolistId, task.id)
         }
-        const changeItemHandler = (title:string) => {
+        const changeItemHandler = (title: string) => {
             props.changeItem(props.todolistId, task.id, title)
         }
         return (
@@ -59,7 +45,7 @@ export function Todolist(props: TodoListPropsType) {
                     checked={task.isDone}
                     onChange={onChangeHandler} />
                 <EditableSpan globalTitle={task.title}
-                    callBack={changeItemHandler}/>
+                    callBack={changeItemHandler} />
                 <Button title="✖️"
                     onClickHandler={onClickRemoveTaskInput} />
             </li>
@@ -69,7 +55,7 @@ export function Todolist(props: TodoListPropsType) {
     // const taskList: JSX.Element = tasksForTodolist.length !== 0
     //     ? <ul>{listItem}</ul>
     //     : <span>Tasks list is empty</span>
-    
+
     const onAllClickHandler = () => {
         props.changeFilter(props.todolistId, 'all')
     }
@@ -78,14 +64,14 @@ export function Todolist(props: TodoListPropsType) {
     }
     const onCompletedClickHandler = () => {
         props.changeFilter(props.todolistId, 'completed')
-    }   
+    }
     const onClickRemoveTodolist = () => {
         props.removeTodolist(props.todolistId)
     }
     const addItemHandler = (title: string) => {
         props.addTasks(props.todolistId, title)
     }
-    const changeThemeHandler = (title: string, ) => {
+    const changeThemeHandler = (title: string,) => {
         props.changeTodosTitle(props.todolistId, title)
     }
 
@@ -93,11 +79,11 @@ export function Todolist(props: TodoListPropsType) {
         <div className="todolist">
             <div className="block">
                 <h3><EditableSpan globalTitle={props.theme}
-                    callBack={changeThemeHandler}/></h3>
+                    callBack={changeThemeHandler} /></h3>
                 <Button title="✖️"
                     onClickHandler={onClickRemoveTodolist} />
             </div>
-            <AddItemForm callBack={addItemHandler}/>
+            <AddItemForm callBack={addItemHandler} />
             <ul>
                 {/* {taskList} */}
                 {listItem}
