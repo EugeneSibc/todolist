@@ -30,16 +30,16 @@ export function Todolist(props: TodoListPropsType) {
     const listItem: Array<JSX.Element> = newFilteredTasks.map((task) => {
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
             let newIsDoneValue = e.currentTarget.checked
-            props.changeTaskStatus(props.todolistId, task.id, newIsDoneValue)
+            props.changeTaskStatus(props.todolistId, task.taskId, newIsDoneValue)
         }
         const onClickRemoveTaskInput = () => {
-            props.removeTask(props.todolistId, task.id)
+            props.removeTask(props.todolistId, task.taskId)
         }
         const changeItemHandler = (title: string) => {
-            props.changeItem(props.todolistId, task.id, title)
+            props.changeItem(props.todolistId, task.taskId, title)
         }
         return (
-            <li key={task.id}
+            <li key={task.taskId}
                 className={task.isDone ? 'is-done' : ''}>
                 <input type="checkbox"
                     checked={task.isDone}

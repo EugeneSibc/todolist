@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Todolist } from './components/todolist/Todolist';
 import { v1 } from 'uuid';
@@ -13,7 +13,7 @@ import { AddItemForm } from './components/AddItemForm';
 export type FilterValueType = 'all' | 'active' | 'completed'
 
 export type TaskType = {
-    id: string
+    taskId: string
     title: string
     isDone: boolean
 }
@@ -42,49 +42,186 @@ function App() {
 
 
 
+    // type TodolistsType = {
+    //     id: string
+    //     title: string
+    // }
 
-    type TodolistsType = {
-        id: string
+    // type TaskDataType = {
+    //     data: TaskType[]
+    //     filter: FilterValueType
+    // }
+
+    // type TasksStateType = {
+    //     [key: string]: TaskDataType
+    // }
+
+    // let todolistId1 = v1();
+    // let todolistId2 = v1();
+
+    // let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+    //     { id: todolistId1, title: "What to learn" },
+    //     { id: todolistId2, title: "What to buy" }
+    // ])
+
+    // let [tasks, setTasks] = useState<TasksStateType>({
+    //     [todolistId1]: {
+    //         data: [
+    //             { id: v1(), title: "HTML&CSS1111", isDone: true },
+    //             { id: v1(), title: "JS1111", isDone: true }
+    //         ],
+    //         filter: "all"
+    //     },
+    //     [todolistId2]: {
+    //         data: [
+    //             { id: v1(), title: "HTML&CSS22222", isDone: true },
+    //             { id: v1(), title: "JS2222", isDone: true }
+    //         ],
+    //         filter: "all"
+    //     }
+    // });
+
+    type TodolistsType = ObjectData & {
+        todolistId: string
+    }
+
+    type ObjectData = {
         title: string
-    }
-
-    type TaskDataType = {
-        data: TaskType[]
         filter: FilterValueType
+        tasks: TaskType []
+        students: string []
     }
-
-    type TasksStateType = {
-        [key: string]: TaskDataType
-    }
-
-    let todolistId1 = v1();
-    let todolistId2 = v1();
-
-    let [todolists, setTodolists] = useState<Array<TodolistsType>>([
-        { id: todolistId1, title: "What to learn" },
-        { id: todolistId2, title: "What to buy" }
-    ])
-
-    let [tasks, setTasks] = useState<TasksStateType>({
-        [todolistId1]: {
-            data: [
-                { id: v1(), title: "HTML&CSS1111", isDone: true },
-                { id: v1(), title: "JS1111", isDone: true }
+    
+    const todoFromServer:ObjectData[]=[
+        {
+            title: "What to learn",
+            filter: "all",
+            tasks: [
+                {taskId: v1(), title: "HTML&CSS", isDone: true},
+                {taskId: v1(), title: "JS", isDone: true}
             ],
-            filter: "all"
+            students: [
+                'Rick Kane',
+                'Finnlay Bentley',
+                'Samia North',
+                'Isaac Morton',
+                'Lily-Ann Clifford',
+                'Thalia Park',
+                'Sapphire Cruz',
+                'Cieran Vazquez',
+                'Anya Estes',
+                'Dominika Field',
+                'Rosanna Chung',
+                'Safiyah Davey',
+                'Ryley Beasley',
+                'Kalvin Trejo',
+                'Evie-Mae Farrell',
+                'Juliet Valencia',
+                'Astrid Austin',
+                'Lyle Montgomery',
+                'Nisha Mora',
+                'Kylie Callaghan',
+                'Star Wilks',
+                'Marissa Colley',
+                'Asa Fuller',
+                'Leigh Kemp',
+                'Avleen Dawson',
+                'Sammy Bonilla',
+                'Acacia Becker',
+                'Coral Shepherd',
+                'Melina Molina',
+                'Kiran Bailey',
+                'Clara Escobar',
+                'Alexandru Horn',
+                'Brandon-Lee Mercado',
+                'Elouise Weston',
+                'King Long',
+                'Kerri Searle',
+                'Kanye Hamer',
+                'Elwood Benitez',
+                'Mikail Whitaker',
+                'Bobby Hardy',
+                'Talha Ferry',
+                'Priscilla Landry',
+                'Olivia-Grace Cain',
+                'Kiaan Wallace',
+                'Wesley Padilla90',
+                'Ella-Grace Wooten91',
+                'Kaif Molloy92',
+                'Kamal Broadhurst93',
+                'Bianca Ferrell94',
+                'Micheal Talbot95',
+            ]
         },
-        [todolistId2]: {
-            data: [
-                { id: v1(), title: "HTML&CSS22222", isDone: true },
-                { id: v1(), title: "JS2222", isDone: true }
+        {
+            title: "What to do",
+            filter: "all",
+            tasks: [
+                {taskId: v1(), title: "HTML&CSS2", isDone: true},
+                {taskId: v1(), title: "JS2", isDone: true}
             ],
-            filter: "all"
+            students: [
+                'Jago Wormald1',
+                'Saul Milne2',
+                'Aariz Hester3',
+                'Dion Reeve4',
+                'Anisa Ortega5',
+                'Blade Cisneros6',
+                'Malaikah Phelps7',
+                'Zeeshan Gallagher8',
+                'Isobella Vo9',
+                'Rizwan Mathis10',
+                'Menaal Leach11',
+                'Kian Walton12',
+                'Orion Lamb13',
+                'Faizah Huynh14',
+                'Crystal Vaughan15',
+                'Vivien Hickman16',
+                'Stuart Lu17',
+                'Karol Davison18',
+                'Dario Burns19',
+                'Chloe Rich20',
+                'Martyna Felix',
+                'Nida Glass',
+                'Maeve Miles',
+                'Hasnain Puckett',
+                'Ayman Cano',
+                'Safwan Perry',
+                'Fox Kelly',
+                'Louise Barlow',
+                'Malaki Mcgill',
+                'Leanna Cline',
+                'Willard Hodge',
+                'Amelia Dorsey',
+                'Kiah Porter',
+                'Jeanne Daly',
+                'Mohsin Armstrong',
+                'Laurie Rangel',
+                'Princess Tierney',
+                'Kasim Kendall',
+                'Darryl Cope',
+                'Elysha Ray',
+                'Liyana Harris',
+                'Kashif Blackburn',
+                'Atif Zimmerman',
+                'Sila Hartley',
+                'Ralphie Hebert',
+            ]
         }
-    });
+    ]
+
+    const [todolists, setTodolist] = useState<TodolistsType[]>([])
+
+    useEffect(()=>{setTodolist(todoFromServer.map(t => ({todolistId: v1(), ...t})))},[])
+
 
     const addTasks = (todolistId: string, title: string) => {
-        let newTask = { id: v1(), title, isDone: false }
-        setTasks({...tasks, [todolistId]:{...tasks[todolistId], data: [newTask, ...tasks[todolistId].data]}})
+        let newTask = { taskId: v1(), title, isDone: false }
+        setTodolist(todolists.map(t => (t.todolistId === todolistId ? {...t, tasks:[newTask, ...t.tasks]} : t)))
+
+
+        // let newTask = { id: v1(), title, isDone: false }
+        // setTasks({...tasks, [todolistId]:{...tasks[todolistId], data: [newTask, ...tasks[todolistId].data]}})
 
 
         // let newTask = { id: v1(), title, isDone: false }
@@ -94,7 +231,9 @@ function App() {
     }
 
     const removeTask = (todolistId: string, taskId: string) => {
-        setTasks({...tasks, [todolistId]:{...tasks[todolistId], data:tasks[todolistId].data.filter(t => t.id !== taskId)}})
+        setTodolist(todolists.map(t => (t.todolistId === todolistId ? {...t, tasks:t.tasks.filter(t => t.taskId !== taskId)} : t)))
+
+        // setTasks({...tasks, [todolistId]:{...tasks[todolistId], data:tasks[todolistId].data.filter(t => t.id !== taskId)}})
         
         // let todolistTasks = tasks[todolistId]
         // tasks[todolistId] = todolistTasks.filter(t => t.id !== taskId)
@@ -102,7 +241,9 @@ function App() {
     }
 
     const changeFilter = (todolistId: string, filterValue: FilterValueType) => {
-        setTasks({ ...tasks, [todolistId]: { ...tasks[todolistId], filter: filterValue } })
+        setTodolist(todolists.map(t => t.todolistId === todolistId ? {...t, filter:filterValue} : t))
+
+        // setTasks({ ...tasks, [todolistId]: { ...tasks[todolistId], filter: filterValue } })
 
         // let todolist = todolists.find(el => el.id === todolistId)
         // if (todolist) {
@@ -112,8 +253,10 @@ function App() {
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, newIsDoneValue: boolean) => {
-        setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
-            data: tasks[todolistId].data.map(t => t.id === taskId ? {...t, isDone:newIsDoneValue} : t)}})
+
+
+        // setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
+        //     data: tasks[todolistId].data.map(t => t.id === taskId ? {...t, isDone:newIsDoneValue} : t)}})
 
         // let todolistTasks = tasks[todolistId]
         // let task = todolistTasks.find(task => task.id === taskId)
@@ -122,7 +265,9 @@ function App() {
     }
 
     const removeTodolist = (todolistId: string) => {
-        setTodolists(todolists.filter(t => t.id !== todolistId))
+
+
+        // setTodolists(todolists.filter(t => t.id !== todolistId))
 
         // setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         // delete tasks[todolistId]
@@ -130,10 +275,12 @@ function App() {
     }
 
     const addTodolist = (title: string) => {
-        const newTodolistId = v1();
-        const newTodolist: TodolistsType = {id:newTodolistId, title}
-        setTodolists([newTodolist, ...todolists])
-        setTasks({[newTodolistId]:{data:[], filter:'all'},...tasks})
+
+
+        // const newTodolistId = v1();
+        // const newTodolist: TodolistsType = {id:newTodolistId, title}
+        // setTodolists([newTodolist, ...todolists])
+        // setTasks({[newTodolistId]:{data:[], filter:'all'},...tasks})
 
         // const newTodolistId = v1();
         // const newTodolist: TodolistsType = { id: newTodolistId, title, filter: 'all' }
@@ -142,8 +289,10 @@ function App() {
     }
 
     const changeItem = (todolistId: string, taskId: string, title: string) => {
-        setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
-            data:tasks[todolistId].data.map(t => t.id === taskId ? {...t, title} : t)}})
+
+
+        // setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
+        //     data:tasks[todolistId].data.map(t => t.id === taskId ? {...t, title} : t)}})
 
         // let todolistTasks = tasks[todolistId]
         // let task = todolistTasks.find(task => task.id === taskId)
@@ -152,7 +301,9 @@ function App() {
     }
 
     const changeTodosTitle = (todolistId: string, title: string) => {
-        setTodolists(todolists.map(t => t.id === todolistId ? {...t, title} : t))
+
+
+        // setTodolists(todolists.map(t => t.id === todolistId ? {...t, title} : t))
 
         // let todolist = todolists.find(todo => todo.id === todolistId)
         // if (todolist) todolist.title = title
@@ -164,15 +315,15 @@ function App() {
             <AddItemForm callBack={addTodolist} />
             {todolists.map(todolist => {
                 return (
-                    <Todolist key={todolist.id}
-                        todolistId={todolist.id}
+                    <Todolist key={todolist.todolistId}
+                        todolistId={todolist.todolistId}
                         theme={todolist.title}
-                        tasks={tasks[todolist.id].data}
+                        tasks={todolist.tasks}
                         removeTask={removeTask}
                         changeFilter={changeFilter}
                         addTasks={addTasks}
                         changeTaskStatus={changeTaskStatus}
-                        filterValue={tasks[todolist.id].filter}
+                        filterValue={todolist.filter}
                         removeTodolist={removeTodolist}
                         changeItem={changeItem}
                         changeTodosTitle={changeTodosTitle}
