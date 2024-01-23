@@ -253,7 +253,13 @@ function App() {
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, newIsDoneValue: boolean) => {
-
+        setTodolist(todolists.map(t => 
+            t.todolistId === todolistId 
+            ? {...t, tasks:t.tasks.map(task => task.taskId === taskId 
+                ? {...task,isDone:newIsDoneValue} 
+                : task)} 
+            : t)
+            )
 
         // setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
         //     data: tasks[todolistId].data.map(t => t.id === taskId ? {...t, isDone:newIsDoneValue} : t)}})
@@ -265,7 +271,7 @@ function App() {
     }
 
     const removeTodolist = (todolistId: string) => {
-
+        setTodolist(todolists.filter(t => t.todolistId !== todolistId))
 
         // setTodolists(todolists.filter(t => t.id !== todolistId))
 
@@ -275,7 +281,8 @@ function App() {
     }
 
     const addTodolist = (title: string) => {
-
+        const newTodolist:TodolistsType = {todolistId:v1(), title, filter:'all', tasks: [], students: ['fasf']}
+        setTodolist([newTodolist,...todolists])
 
         // const newTodolistId = v1();
         // const newTodolist: TodolistsType = {id:newTodolistId, title}
@@ -289,7 +296,11 @@ function App() {
     }
 
     const changeItem = (todolistId: string, taskId: string, title: string) => {
-
+        setTodolist(todolists.map(t => t.todolistId === todolistId 
+            ? {...t, tasks:t.tasks.map(task => task.taskId === taskId 
+                ? {...task, title} 
+                : task)} 
+            : t))
 
         // setTasks({...tasks, [todolistId]:{...tasks[todolistId], 
         //     data:tasks[todolistId].data.map(t => t.id === taskId ? {...t, title} : t)}})
@@ -301,7 +312,7 @@ function App() {
     }
 
     const changeTodosTitle = (todolistId: string, title: string) => {
-
+        setTodolist(todolists.map(t => t.todolistId === todolistId ? {...t, title, tasks:[...t.tasks]} : t))
 
         // setTodolists(todolists.map(t => t.id === todolistId ? {...t, title} : t))
 
