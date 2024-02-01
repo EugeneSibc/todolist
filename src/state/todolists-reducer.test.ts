@@ -1,4 +1,4 @@
-​import { AddTodolistAC, ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, todolistsReducer } from './todolists-reducer'
+import { AddTodolistAC, ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, todolistsReducer } from './todolists-reducer'
 import { v1 } from 'uuid'
 import { FilterValuesType, TodolistType } from '../App'
 
@@ -18,7 +18,7 @@ test('correct todolist should be removed', () => {
 })
 
 
-​test('correct todolist should be added', () => {
+test('correct todolist should be added', () => {
     let todolistId1 = v1()
     let todolistId2 = v1()
 
@@ -36,7 +36,7 @@ test('correct todolist should be removed', () => {
 })
 
 
-​test('correct todolist should change its name', () => {
+test('correct todolist should change its name', () => {
     let todolistId1 = v1()
     let todolistId2 = v1()
 
@@ -54,7 +54,7 @@ test('correct todolist should be removed', () => {
 })
 
 
-​test('correct filter of todolist should be changed', () => {
+test('correct filter of todolist should be changed', () => {
     let todolistId1 = v1()
     let todolistId2 = v1()
 
