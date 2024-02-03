@@ -75,24 +75,26 @@ function App() {
     }
 
     function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
-        //достанем нужный массив по todolistId:
-        let todolistTasks = tasks[todolistId];
-        // найдём нужную таску:
-        let task = todolistTasks.find(t => t.id === id);
-        //изменим таску, если она нашлась
-        if (task) {
-            task.title = newTitle;
-            // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-            setTasks({...tasks});
-        }
+        // //достанем нужный массив по todolistId:
+        // let todolistTasks = tasks[todolistId];
+        // // найдём нужную таску:
+        // let task = todolistTasks.find(t => t.id === id);
+        // //изменим таску, если она нашлась
+        // if (task) {
+        //     task.title = newTitle;
+        //     // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
+        //     setTasks({...tasks});
+        // }
+        setTasks({...tasks, [todolistId]:tasks[todolistId].map(t => t.id === id ? {...t, title: newTitle} : t)})
     }
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
-        let todolist = todolists.find(tl => tl.id === todolistId);
-        if (todolist) {
-            todolist.filter = value;
-            setTodolists([...todolists])
-        }
+        // let todolist = todolists.find(tl => tl.id === todolistId);
+        // if (todolist) {
+        //     todolist.filter = value;
+        //     setTodolists([...todolists])
+        // }
+        setTodolists(todolists.map(t => t.id === todolistId ? {...t, filter: value} : t))
     }
 
     function removeTodolist(id: string) {
@@ -105,13 +107,14 @@ function App() {
     }
 
     function changeTodolistTitle(id: string, title: string) {
-        // найдём нужный todolist
-        const todolist = todolists.find(tl => tl.id === id);
-        if (todolist) {
-            // если нашёлся - изменим ему заголовок
-            todolist.title = title;
-            setTodolists([...todolists]);
-        }
+        // // найдём нужный todolist
+        // const todolist = todolists.find(tl => tl.id === id);
+        // if (todolist) {
+        //     // если нашёлся - изменим ему заголовок
+        //     todolist.title = title;
+        //     setTodolists([...todolists]);
+        // }
+        setTodolists(todolists.map(t => t.id === id ? {...t, title} : t))
     }
 
     function addTodolist(title: string) {

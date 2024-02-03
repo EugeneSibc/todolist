@@ -64,11 +64,12 @@ export function Todolist(props: PropsType) {
 
 
                     return <div key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <Checkbox
+                        {/* <Checkbox
                             checked={t.isDone}
                             color="primary"
                             onChange={onChangeHandler}
-                        />
+                        /> */}
+                        <input type='checkbox' onChange={onChangeHandler} checked={t.isDone}/>
 
                         <EditableSpan value={t.title} onChange={onTitleChangeHandler} />
                         <IconButton onClick={onClickHandler}>
