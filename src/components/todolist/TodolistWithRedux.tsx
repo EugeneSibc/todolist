@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from 'react';
-import { FilterValuesType, TaskType, TasksStateType } from './../../AppWithRedux';
+import React, {ChangeEvent, useCallback} from 'react';
+import { FilterValuesType, TaskType } from './../../AppWithRedux';
 import { AddItemForm } from './../AddItemForm';
 import { EditableSpan } from './../EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
@@ -21,9 +21,9 @@ export function TodolistWithRedux(props: PropsType) {
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
     let dispatch = useDispatch()
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, props.id))
-    }
+    }, [])
     const removeTodolist = () => {
         dispatch(removeTodolistAC(props.id))
     }
