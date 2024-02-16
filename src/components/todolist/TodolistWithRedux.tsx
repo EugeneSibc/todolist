@@ -18,6 +18,7 @@ type PropsType = {
 }
 
 export function TodolistWithRedux(props: PropsType) {
+    console.log("Todolist called") 
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
     let dispatch = useDispatch()
 
@@ -35,6 +36,7 @@ export function TodolistWithRedux(props: PropsType) {
     const onActiveClickHandler = () => dispatch(changeFilterAC(props.id, "active"));
     const onCompletedClickHandler = () => dispatch(changeFilterAC(props.id, "completed"));
 
+    
     if (props.filter === "active") {
         tasks = tasks.filter(t => t.isDone === false);
     }
@@ -61,7 +63,7 @@ export function TodolistWithRedux(props: PropsType) {
                     const onTitleChangeHandler = (newValue: string) => {
                         dispatch(changeTaskTitleAC(t.id, newValue, props.id));
                     }
-
+                    
                     return <div key={t.id} className={t.isDone ? "is-done" : ""}>
                         {/* <Checkbox
                             checked={t.isDone}
