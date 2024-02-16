@@ -1,50 +1,51 @@
-import { ChangeEvent, useState, KeyboardEvent } from "react"
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
-type AddItemsFormProps = {
-    callBack:(title: string) => void
+
+
+type AddItemFormPropsType = {
+    callBack: (title: string) => void
 }
 
-export const AddItemForm = (props:AddItemsFormProps) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+    console.log("AddItemForm called")
+    let [title, setTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
 
-    const [title, setTitle] = useState('')
-    const [error, setError] = useState(false)
-
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setError(false)
-        setTitle(event.currentTarget.value)
-    }
-    const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if(title.trim() !== ''){
-            if (event.key === "Enter" && title) {
-                props.callBack(title.trim())
-                setTitle('')
-            } 
-        }
-         else {
-            setError(true)
-            // setTitle('') если обнулять title здесь   
-        }    
-        // setTitle('') или здесь, то дальше первого символа не написать. Почему?
-    }
-    const onClickHandler = () => {
-        if (title.trim() !== '') {
-            props.callBack(title.trim())
+    const addItem = () => {
+        if (title.trim() !== "") {
+            props.callBack(title);
+            setTitle("");
         } else {
-            setError(true)
-        } 
-        setTitle('')        
+            setError("Title is required");
+        }
     }
 
-    return (
-        <>
-            <input value={title}
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) {
+            setError(null);
+        }
+        if (e.charCode === 13) {
+            addItem();
+        }
+    }
+
+    return <div>
+        <TextField variant="outlined"
+                   error={!!error}
+                   value={title}
                    onChange={onChangeHandler}
-                   onKeyDown={onKeyDownHandler}
-                //    onBlur={alert('HeHoHyyyu')}
-                   className={error ? 'error' : ''}
-            />
-            <button onClick={onClickHandler}>+</button>
-            {error && <div className='error-message'>'Title is required'</div>}
-        </>
-    )
-}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItem}>
+            <AddBox />
+        </IconButton>
+    </div>
+})

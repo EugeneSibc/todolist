@@ -1,8 +1,8 @@
 import React, {Reducer, useReducer, useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
+import {Todolist} from './components/todolist/Todolist';
 import {v1} from 'uuid';
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from './components/AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
 import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
@@ -98,7 +98,7 @@ export function AppWithReducers() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
-                    <AddItemForm addItem={addTodolist}/>
+                    <AddItemForm callBack={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {
