@@ -49,15 +49,15 @@ export function AppWithRedux() {
     // });
 
     const todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
-    // const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch()
-
-    const removeTask = useCallback((id: string, todolistId: string) => {        
-        dispatch(removeTaskAC(id, todolistId))
-    }, [])
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const dispatch = useDispatch()    
 
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskAC(title, todolistId))
+    }, [])
+
+    const removeTask = useCallback((id: string, todolistId: string) => {        
+        dispatch(removeTaskAC(id, todolistId))
     }, [])
 
     const changeStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
@@ -106,12 +106,22 @@ export function AppWithRedux() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
+                            let allTasksForTodolist = tasks[tl.id]
+                            let tasksForTodolist = allTasksForTodolist
                             return <Grid key={tl.id} item>
                                 <Paper style={{padding: "10px"}}>
                                     <TodolistWithRedux                                
                                         id={tl.id}
                                         title={tl.title}
-                                        filter={tl.filter}                                        
+                                        tasks={tasksForTodolist}
+                                        filter={tl.filter}
+                                        addTask={addTask}
+                                        removeTask={removeTask}
+                                        changeStatus={changeStatus}
+                                        changeTaskTitle={changeTaskTitle}
+                                        changeFilter={changeFilter}
+                                        removeTodolist={removeTodolist}
+                                        changeTodolistTitle={changeTodolistTitle}
                                     />
                                 </Paper>
                             </Grid>
