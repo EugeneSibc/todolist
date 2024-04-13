@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
 import { taskAPI } from '../api/task-api'
 
@@ -7,43 +7,109 @@ export default {
 }
 
 export const GetTasks = () => {
-    const todolistId = 'f079c559-77d9-4fee-832a-1d0c1a4193fb'
+    const [todolistId, setTodolistId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
+    // useEffect(() => {
+    //     taskAPI.getTask(todolistId)
+    //         .then(res => { setState(res.data) })
+    // }, [])
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTodolistId(e.currentTarget.value)
+    }
+    const onClickHandler = () => {
         taskAPI.getTask(todolistId)
             .then(res => { setState(res.data) })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return <div>
+        <div>
+            <input onChange={onChangeHandler} />
+            <button onClick={onClickHandler}>GET TASKS</button>
+        </div>
+        {JSON.stringify(state)}
+    </div>
 }
 
 export const CreateTasks = () => {
-    const todolistId = 'f079c559-77d9-4fee-832a-1d0c1a4193fb'
+    const [todolistId, setTodolistId] = useState<string>('')
+    const [value, setValue] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        taskAPI.createTask(todolistId, 'SET NEW TASK')
+    // useEffect(() => {
+    //     taskAPI.createTask(todolistId, 'SET NEW TASK')
+    //         .then(res => { setState(res.data) })
+    // }, [])
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTodolistId(e.currentTarget.value)
+    }
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value)
+    }
+    const onClickHandler = () => {
+        taskAPI.createTask(todolistId, value)
             .then(res => { setState(res.data) })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return <div>
+        <div>
+            <div>TodolistId: <input onChange={onChangeHandler} /></div>
+            <div>Title: <input onChange={onChangeTitleHandler} /></div>
+            <button onClick={onClickHandler}>CREATE TASK</button>
+        </div>
+        {JSON.stringify(state)}
+    </div>
 }
 
 export const UpdateTasks = () => {
-    const todolistId = 'f079c559-77d9-4fee-832a-1d0c1a4193fb'
-    const taskId = '51569a45-6183-4388-aa18-e31b9d9a1805'
+    const [value, setValue] = useState<string>('')
+    const [todolistId, setTodolistId] = useState<string>('')
+    const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        taskAPI.updateTask(todolistId, taskId, 'CHANGE TITLE TASK')
+    // useEffect(() => {
+    //     taskAPI.updateTask(todolistId, taskId, value)
+    //         .then(res => { setState(res.data) })
+    // }, [])
+    const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTodolistId(e.currentTarget.value)
+    }
+    const onChangeTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskId(e.currentTarget.value)
+    }
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value)
+    }
+    const onClickHandler = () => {
+        taskAPI.updateTask(todolistId, taskId, value)
             .then(res => { setState(res.data) })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return <div>
+        <div>TodolistId: <input onChange={onChangeTodoHandler} /></div>
+        <div>TaskId: <input onChange={onChangeTaskHandler} /></div>
+        <div>Title: <input onChange={onChangeTitleHandler} /></div>
+        <button onClick={onClickHandler}>UPDATE TASK</button>
+        {JSON.stringify(state)}
+    </div>
 }
 
 export const DeleteTasks = () => {
-    const todolistId = 'f079c559-77d9-4fee-832a-1d0c1a4193fb'
-    const taskId = '4169d0d9-81fe-46ab-aea3-3c40a9e981d4'
+    const [todolistId, setTodolistId] = useState<string>('')
+    const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
+    // useEffect(() => {
+    //     taskAPI.deleteTask(todolistId, taskId)
+    //         .then(res => { setState(res.data) })
+    // }, [])
+    const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTodolistId(e.currentTarget.value)
+    }
+    const onChangeTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskId(e.currentTarget.value)
+    }
+    const onClickHandler= () => {
         taskAPI.deleteTask(todolistId, taskId)
             .then(res => { setState(res.data) })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return <div>
+        <div>TodolistId: <input onChange={onChangeTodoHandler} /></div>
+        <div>TaskId: <input onChange={onChangeTaskHandler} /></div>
+        <button onClick={onClickHandler}>DELETE TASK</button>
+        {JSON.stringify(state)}
+    </div>
 }
