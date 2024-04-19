@@ -11,7 +11,7 @@ type TaskData = {
     id: string
     todoListId: string
     order: number
-    addedDate: string
+    addedDate: Date
 }
 type GetTask = {
     items: TaskData[]

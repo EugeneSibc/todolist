@@ -9,10 +9,7 @@ export default {
 export const GetTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    // useEffect(() => {
-    //     taskAPI.getTask(todolistId)
-    //         .then(res => { setState(res.data) })
-    // }, [])
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -33,10 +30,7 @@ export const CreateTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [value, setValue] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    // useEffect(() => {
-    //     taskAPI.createTask(todolistId, 'SET NEW TASK')
-    //         .then(res => { setState(res.data) })
-    // }, [])
+    
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -62,10 +56,7 @@ export const UpdateTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    // useEffect(() => {
-    //     taskAPI.updateTask(todolistId, taskId, value)
-    //         .then(res => { setState(res.data) })
-    // }, [])
+ 
     const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -92,10 +83,7 @@ export const DeleteTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    // useEffect(() => {
-    //     taskAPI.deleteTask(todolistId, taskId)
-    //         .then(res => { setState(res.data) })
-    // }, [])
+  
     const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }

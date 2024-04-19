@@ -21,10 +21,6 @@ export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     const [value, setValue] = useState<string>('')
 
-    // useEffect(() => {
-    //     todolistAPI.createTodolist(value)
-    //         .then(res => { setState(res.data) })
-    // }, [])
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
@@ -49,10 +45,6 @@ export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     const [todolistId, setTodolistId] = useState<string>('')
 
-    // useEffect(() => {
-    //     todolistAPI.deleteTodolist(todolistId)
-    //         .then(res => { setState(res.data) })
-    // }, [])
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -74,10 +66,7 @@ export const UpdateTodolistTitle = () => {
     const [todolistId, setTodolistId] = useState<string>('TodolistId')
     const [value, setValue] = useState<string>('Title')
     const [state, setState] = useState<any>(null)
-    // useEffect(() => {
-    //     todolistAPI.updateTodolist(todolistId, value)
-    //         .then(res => { setState(res.data) })
-    // }, [])
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }

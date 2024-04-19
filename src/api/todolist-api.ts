@@ -2,7 +2,7 @@ import axios from 'axios'
 
 type TodolistData = {
     id: string
-    addedDate: string
+    addedDate: Date
     order: number
     title: string
 }
