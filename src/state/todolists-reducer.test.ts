@@ -1,4 +1,5 @@
 import {
+    TodolistDomainType,
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC,
@@ -11,14 +12,14 @@ import { tasksReducer } from './tasks-reducer';
 
 let todolistId1: string
 let todolistId2: string
-let startState: Array<TodolistType>
+let startState: TodolistDomainType[]
 
 beforeEach(() => {
     todolistId1 = v1();
     todolistId2 = v1();
     startState = [
-        { id: todolistId1, title: "What to learn", filter: "all" },
-        { id: todolistId2, title: "What to buy", filter: "all" }
+        { id: todolistId1, title: "What to learn", filter: "all", addedDate: new Date, order: 0},
+        { id: todolistId2, title: "What to buy", filter: "all", addedDate: new Date, order: 0}
     ]
 })
 
@@ -72,7 +73,7 @@ test('correct filter of todolist should be changed', () => {
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {}
-    const startTodolistsState: Array<TodolistType> = []
+    const startTodolistsState: TodolistDomainType[] = []
 
     const action = addTodolistAC('new todolist')
 

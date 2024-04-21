@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-type TodolistData = {
+export type TodolistData = {
     id: string
     addedDate: Date
     order: number
@@ -9,13 +9,9 @@ type TodolistData = {
 type ResponseType<D = {}> = {
     resultCode: number
     messages: string[]
-    fieldsErrors: FieldErrorType[]
     data: D
-  }
-type FieldErrorType = {
-    error: string
-    field: string
-  }
+}
+
 
 const instanse = axios.create({ 
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
