@@ -42,7 +42,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(
                     t => t.id === action.payload.id ? {
-                        ...t, isDone: action.payload.isDone
+                        ...t, completed: action.payload.completed
                     } : t
                 )
             }
@@ -87,10 +87,10 @@ export const addTaskAC = (title: string, todolistId: string) => {
 }
 
 type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
-export const changeTaskStatusAC = (id: string, isDone: boolean, todolistId: string) => {
+export const changeTaskStatusAC = (id: string, completed: boolean, todolistId: string) => {
     return {
         type: "CHANGE-STATUS",
-        payload: { id, isDone, todolistId }
+        payload: { id, completed, todolistId }
     } as const
 }
 
