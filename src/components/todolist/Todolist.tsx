@@ -1,15 +1,16 @@
 import React, { ChangeEvent } from 'react';
-import { FilterValuesType, TaskType, TasksStateType } from './../../AppWithReducers';
 import { AddItemForm } from './../AddItemForm';
 import { EditableSpan } from './../EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { Delete } from "@mui/icons-material";
 import { Button, Checkbox } from "@mui/material";
+import { TaskData } from '../../api/task-api';
+import { FilterValuesType } from '../../state/todolists-reducer';
 
 type PropsType = {
     id: string
     title: string
-    tasks: TaskType[]
+    tasks: TaskData[]
     removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (todolistId: string, value: FilterValuesType) => void
     addTask: (title: string, todolistId: string) => void
@@ -25,10 +26,10 @@ export function Todolist(props: PropsType) {
     let tasksForTodolist = allTodolistTasks;
 
     if (props.filter === "active") {
-        tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false);
+        tasksForTodolist = allTodolistTasks.filter(t => t.completed === false);
     }
     if (props.filter === "completed") {
-        tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
+        tasksForTodolist = allTodolistTasks.filter(t => t.completed === true);
     }
 
     const addTask = (title: string) => {
@@ -64,13 +65,13 @@ export function Todolist(props: PropsType) {
                         props.changeTaskTitle(t.id, newValue, props.id);
                     }
 
-                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
+                    return <div key={t.id} className={t.completed ? "is-done" : ""}>
                         {/* <Checkbox
                             checked={t.isDone}
                             color="primary"
                             onChange={onChangeHandler}
                         /> */}
-                        <input type='checkbox' onChange={onChangeHandler} checked={t.isDone} />
+                        <input type='checkbox' onChange={onChangeHandler} checked={t.completed} />
                         <EditableSpan value={t.title} callBack={onTitleChangeHandler} />
                         <IconButton onClick={onClickHandler}>
                             <Delete />

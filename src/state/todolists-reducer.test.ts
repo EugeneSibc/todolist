@@ -1,4 +1,5 @@
 import {
+    FilterValuesType,
     TodolistDomainType,
     addTodolistAC,
     changeFilterAC,
@@ -7,8 +8,7 @@ import {
     todolistsReducer
 } from './todolists-reducer';
 import { v1 } from 'uuid';
-import { FilterValuesType, TasksStateType, TodolistType } from '../AppWithReducers';
-import { tasksReducer } from './tasks-reducer';
+import { TasksStateType, tasksReducer } from './tasks-reducer';
 
 let todolistId1: string
 let todolistId2: string

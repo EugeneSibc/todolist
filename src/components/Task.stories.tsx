@@ -1,6 +1,7 @@
-import type {Meta, StoryObj} from '@storybook/react';
-import {action} from '@storybook/addon-actions'
+import type { Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions'
 import { Task } from './Task';
+import { TaskPriorities, TaskStatuses } from '../api/task-api';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {
@@ -17,7 +18,19 @@ const meta: Meta<typeof Task> = {
         changeStatus: action('Status changed inside Task'),
         changeTaskTitle: action('Title changed inside Task'),
         removeTask: action('Remove Button clicked changed inside Task'),
-        task: {id: '12wsdewfijdei', title: 'JS', isDone: false},
+        task: {
+            description: '',
+            title: 'JS',
+            completed: false,
+            status: TaskStatuses.InProgress,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+            id: '12wsdewfijdei',
+            todoListId: 'fgdosrg8rgjuh',
+            order: 0,
+            addedDate: new Date
+        },
         todolistId: 'fgdosrg8rgjuh'
     }
 };
@@ -29,7 +42,19 @@ export const TaskIsNotDoneStory: Story = {}
 
 export const TaskIsDoneStory: Story = {
     args: {
-        task: {id: '12wsdewfijdei2343', title: 'CSS', isDone: true},
+        task: {
+            description: '',
+            title: 'CSS',
+            completed: true,
+            status: TaskStatuses.Completed,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+            id: '12wsdewfijdei2343',
+            todoListId: 'fgdosrg8rgjuh',
+            order: 0,
+            addedDate: new Date
+        },
     }
 }
 
