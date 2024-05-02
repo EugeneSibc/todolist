@@ -5,6 +5,7 @@ export type TodolistsReducerActionsType = RemoveTodolistACType
     | AddTodolistACType
     | ChangeTodolistTitleACType
     | ChangeFilterACType
+    | SetTodolistsAC
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -33,6 +34,9 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
         }
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(el => el.id === action.payload.id ? { ...el, filter: action.payload.filter } : el)
+        }
+        case "SET-TODOLISTS": {
+            return action.todolists.map(tl => ({...tl, filter:'all'}))
         }
         default:
             return state
@@ -74,5 +78,13 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => {
         payload: {
             id, filter
         }
+    } as const
+}
+
+export type SetTodolistsAC = ReturnType<typeof setTodolistsAC>
+export const setTodolistsAC = (todolists: TodolistData[]) => {
+    return {
+        type: 'SET-TODOLISTS',
+        todolists
     } as const
 }
