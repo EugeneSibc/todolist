@@ -7,8 +7,8 @@ export type TasksReducerActionsType = RemoveTaskACType
     | ChangeTaskStatusACType
     | ChangeTaskTitleACType
     | AddTodolistACType
-    | RemoveTodolistACType  
-    | SetTodolistsAC 
+    | RemoveTodolistACType
+    | SetTodolistsAC
 
 
 export type TasksStateType = {
@@ -20,23 +20,19 @@ const initialState: TasksStateType = {}
 export const tasksReducer = (state: TasksStateType = initialState, action: TasksReducerActionsType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
-            return { ...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(t => t.id !== action.payload.id) }
+            return {
+                ...state,
+                [action.payload.todolistId]: state[action.payload.todolistId].filter(
+                    t => t.id !== action.payload.id
+                )
+            }
         }
         case "ADD-TASK": {
-            let newTask: TaskData = {
-                description: '',
-                title: action.payload.title,
-                completed: false,
-                status: TaskStatuses.InProgress,
-                priority: TaskPriorities.Hi,
-                startDate: '',
-                deadline: '',
-                id: v1(),
-                todoListId: action.payload.todolistId,
-                order: 0,
-                addedDate: new Date,
+            return {
+                ...state,
+                [action.payload.todolistId]: [...state[action.payload.todolistId],
+                action.payload.task]
             }
-            return { ...state, [action.payload.todolistId]: [...state[action.payload.todolistId], newTask] }
         }
         case "CHANGE-STATUS": {
             return {
@@ -66,7 +62,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             return { ...state }
         }
         case "SET-TODOLISTS": {
-            let stateCopy = {...state}
+            let stateCopy = { ...state }
             action.todolists.forEach(ts => stateCopy[ts.id] = [])
             return stateCopy
         }
@@ -88,7 +84,7 @@ type AddTaskACType = ReturnType<typeof addTaskAC>
 export const addTaskAC = (title: string, todolistId: string) => {
     return {
         type: "ADD-TASK",
-        payload: { title, todolistId }
+        payload: { title, todolistId, }
     } as const
 }
 

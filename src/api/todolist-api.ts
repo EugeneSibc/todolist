@@ -21,7 +21,7 @@ const instanse = axios.create({
     },
 })
 
-export const todolistAPI = {
+export const todolistsAPI = {
     getTodolists() {
         return instanse.get<TodolistData[]>(`/todo-lists`)
     },
