@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
-import { taskAPI } from '../api/task-api'
+import { tasksAPI } from '../api/tasks-api'
 
 export default {
     title: 'API',
@@ -14,7 +14,7 @@ export const GetTasks = () => {
         setTodolistId(e.currentTarget.value)
     }
     const onClickHandler = () => {
-        taskAPI.getTask(todolistId)
+        tasksAPI.getTask(todolistId)
             .then(res => { setState(res.data) })
     }
     return <div>
@@ -38,7 +38,7 @@ export const CreateTasks = () => {
         setValue(e.currentTarget.value)
     }
     const onClickHandler = () => {
-        taskAPI.createTask(todolistId, value)
+        tasksAPI.createTask(todolistId, value)
             .then(res => { setState(res.data) })
     }
     return <div>
@@ -67,7 +67,7 @@ export const UpdateTasks = () => {
         setValue(e.currentTarget.value)
     }
     const onClickHandler = () => {
-        taskAPI.updateTask(todolistId, taskId, value)
+        tasksAPI.updateTask(todolistId, taskId, value)
             .then(res => { setState(res.data) })
     }
     return <div>
@@ -91,7 +91,7 @@ export const DeleteTasks = () => {
         setTaskId(e.currentTarget.value)
     }
     const onClickHandler= () => {
-        taskAPI.deleteTask(todolistId, taskId)
+        tasksAPI.deleteTask(todolistId, taskId)
             .then(res => { setState(res.data) })
     }
     return <div>

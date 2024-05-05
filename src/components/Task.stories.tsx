@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions'
 import { Task } from './Task';
-import { TaskPriorities, TaskStatuses } from '../api/task-api';
+import { TaskPriorities, TaskStatuses } from '../api/tasks-api';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {

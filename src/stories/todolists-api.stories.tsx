@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
-import { todolistAPI } from '../api/todolist-api'
+import { todolistsAPI } from '../api/todolists-api'
 
 export default {
     title: 'API',
@@ -11,7 +11,7 @@ export const GetTodolists = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
-        todolistAPI.getTodolist()
+        todolistsAPI.getTodolists()
             .then(res => { setState(res.data) })
     }, [])
     return <div>{JSON.stringify(state)}</div>
@@ -26,7 +26,7 @@ export const CreateTodolist = () => {
     }
     const onClickHandler = () => {
         console.log(state)
-        todolistAPI.createTodolist(value)
+        todolistsAPI.createTodolist(value)
             .then(res => { setState(res.data) })
             setValue('')
     }
@@ -49,7 +49,7 @@ export const DeleteTodolist = () => {
         setTodolistId(e.currentTarget.value)
     }
     const onClickHandler = () => {
-        todolistAPI.deleteTodolist(todolistId)
+        todolistsAPI.deleteTodolist(todolistId)
             .then(res => { setState(res.data) })
             setTodolistId('')   
     }
@@ -74,7 +74,7 @@ export const UpdateTodolistTitle = () => {
         setValue(e.currentTarget.value)
     }
     const onClickHandler = () => {
-        todolistAPI.updateTodolist(todolistId, value)
+        todolistsAPI.updateTodolist(todolistId, value)
             .then(res => { setState(res.data) })            
     }
     return <div>

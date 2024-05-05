@@ -26,7 +26,7 @@ export type TaskData = {
     order: number
     addedDate: Date
 }
-type GetTask = {
+export type GetTask = {
     items: TaskData[]
     totalCount: number
     error: string
@@ -45,12 +45,12 @@ const instanse = axios.create({
     },
 })
 
-export const taskAPI = {
+export const tasksAPI = {
     getTask(todolistId: string) {
         return instanse.get<GetTask>(`${todolistId}/tasks`)
     },
-    createTask(todolistId: string, task: TaskData) {
-        return instanse.post<ResponseType<{item: TaskData}>>(`${todolistId}/tasks`, { task })
+    createTask(todolistId: string, title: string) {
+        return instanse.post<ResponseType<{item: TaskData}>>(`${todolistId}/tasks`, { title })
     },
     updateTask(todolistId: string, taskId: string, title: string) {
         return instanse.put<ResponseType<{item: TaskData}>>(`${todolistId}/tasks/${taskId}`, { title })

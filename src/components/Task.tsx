@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback } from 'react';
 import { EditableSpan } from './EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { Delete } from '@mui/icons-material';
-import { TaskData } from '../api/task-api';
+import { TaskData } from '../api/tasks-api';
 
 type TaskProps = {
     removeTask: (id: string, todolistId: string) => void
