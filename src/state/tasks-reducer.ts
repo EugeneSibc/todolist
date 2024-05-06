@@ -118,7 +118,7 @@ export const updateTaskStatusTC = (todolistId: string, taskId: string, status: T
             deadline: task.deadline,
             status: status
         }
-            tasksAPI.updateTask(todolistId, taskId, task)
+            tasksAPI.updateTask(todolistId, taskId, model)
             .then(()=>{
                 dispatch(changeTaskStatusAC(todolistId, taskId, status ))
             })

@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar/AppBar';
 import { Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { FilterValuesType, TodolistDomainType, addTodolistAC, changeFilterAC, changeTodolistTitleAC, fetchTodolistsTC, removeTodolistAC } from './state/todolists-reducer';
-import {  TasksStateType, addTaskAC, addTaskTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, removeTaskTC } from './state/tasks-reducer';
+import {  TasksStateType, addTaskAC, addTaskTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, removeTaskTC, updateTaskStatusTC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType, AppThunkDispatch, useAppDispatch } from './state/store';
 import { TodolistWithRedux } from './components/todolist/TodolistWithRedux';
@@ -25,8 +25,8 @@ export function AppWithRedux() {
         dispatch(removeTaskTC(id, todolistId))
     }, [])
 
-    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(changeTaskStatusAC(todolistId, taskId, status ))
+    const changeStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses ) => {
+        dispatch(updateTaskStatusTC(todolistId, taskId, status ))
     }, [])
 
     const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {

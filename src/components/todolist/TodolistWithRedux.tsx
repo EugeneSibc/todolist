@@ -52,10 +52,10 @@ export const TodolistWithRedux = (props: PropsType) => {
 
     let tasksForTodolist = props.tasks
     if (props.filter === "active") {
-        tasksForTodolist = props.tasks.filter(t => t.completed === false);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.InProgress);
     }
     if (props.filter === "completed") {
-        tasksForTodolist = props.tasks.filter(t => t.completed === true);
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed);
     }
 
     return <div>
