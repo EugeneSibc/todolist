@@ -6,7 +6,7 @@ import { Delete } from "@mui/icons-material";
 import { Button, Checkbox } from "@mui/material";
 import { FilterValuesType } from '../../state/todolists-reducer';
 import { Task } from '../Task';
-import { TaskData } from '../../api/tasks-api';
+import { TaskData, TaskStatuses } from '../../api/tasks-api';
 import { useAppDispatch } from '../../state/store';
 import { fetchTasksTC } from '../../state/tasks-reducer';
 import { useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ type PropsType = {
     filter: FilterValuesType
     addTask:(title: string, todolistId: string) => void
     removeTask:(id: string, todolistId: string) => void
-    changeStatus:(id: string, isDone: boolean, todolistId: string) => void
+    changeStatus:(todolistId: string, taskId: string, status: TaskStatuses ) => void
     changeTaskTitle:(id: string, newTitle: string, todolistId: string) => void
     changeFilter:(todolistId: string, value: FilterValuesType) => void
     removeTodolist:(id: string) => void

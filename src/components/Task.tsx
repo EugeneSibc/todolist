@@ -2,11 +2,11 @@ import React, { ChangeEvent, useCallback } from 'react';
 import { EditableSpan } from './EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { Delete } from '@mui/icons-material';
-import { TaskData } from '../api/tasks-api';
+import { TaskData, TaskStatuses } from '../api/tasks-api';
 
 type TaskProps = {
     removeTask: (id: string, todolistId: string) => void
-    changeStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeStatus: (todolistId: string, taskId: string, status: TaskStatuses, ) => void
     changeTaskTitle: (id: string, newTitle: string, todolistId: string) => void
     task: TaskData
     todolistId: string

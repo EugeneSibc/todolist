@@ -44,7 +44,6 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
     }
 }
 
-
 export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
     todolistsAPI.getTodolists()
         .then((res: { data: TodolistData[]; }) => {
