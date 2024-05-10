@@ -22,16 +22,10 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
             return state.filter(el => el.id !== action.id)
         }
         case "ADD-TODOLIST": {
-            return [{
-                id: action.todolistId,
-                title: action.title,
-                filter: 'all',
-                addedDate: new Date,
-                order: 0
-            }, ...state]
+            return [{...action.todolist, filter: 'all'}, ...state]
         }
         case "CHANGE-TODOLIST-TITLE": {
-            return state.map(el => el.id === action.payload.id ? { ...el, title: action.payload.title } : el)
+            return state.map(el => el.id === action.id ? { ...el, title: action.title } : el)
         }
         case "CHANGE-TODOLIST-FILTER": {
             return state.map(el => el.id === action.payload.id ? { ...el, filter: action.payload.filter } : el)
@@ -50,6 +44,25 @@ export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
             dispatch(setTodolistsAC(res.data))
         })
 }
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+    todolistsAPI.createTodolist(title).then(res => {
+        const todolist = res.data.data.item
+        const action = addTodolistAC(todolist)
+        dispatch(action)
+    })
+}
+export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
+    todolistsAPI.deleteTodolist(id).then(res => {
+        const action = removeTodolistAC(id)
+        dispatch(action)
+    })
+}
+export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch) => {
+    todolistsAPI.updateTodolist(id, title).then(res => {
+        const action = changeTodolistTitleAC(id, title)
+        dispatch(action)
+    })
+}
 
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
 export const removeTodolistAC = (id: string) => {
@@ -60,11 +73,10 @@ export const removeTodolistAC = (id: string) => {
 }
 
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (todolist: TodolistData) => {
     return {
         type: 'ADD-TODOLIST',
-        title,
-        todolistId: v1()
+        todolist
     } as const
 }
 
@@ -72,10 +84,7 @@ type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 export const changeTodolistTitleAC = (id: string, title: string) => {
     return {
         type: 'CHANGE-TODOLIST-TITLE',
-        payload: {
-            id, title
-        }
-
+        id, title
     } as const
 }
 
