@@ -1,6 +1,6 @@
 import { TaskPriorities, TaskStatuses } from '../api/tasks-api'
 import { addTaskAC, removeTaskAC, tasksReducer, changeTaskStatusAC, changeTaskTitleAC, TasksStateType } from './tasks-reducer'
-import { addTodolistAC, addTodolistTC, removeTodolistAC } from './todolists-reducer'
+import { addTodolistAC, removeTodolistAC } from './todolists-reducer'
 
 let startState: TasksStateType
 beforeEach(() => {
@@ -170,15 +170,28 @@ test('correct task should be deleted from correct array', () => {
 
 
 test('correct task should be added to correct array', () => {
-    // const action = addTaskAC('juce', 'todolistId2')
+    const task = {
+        description: '',
+        title: 'juce',
+        completed: false,
+        status: TaskStatuses.InProgress,
+        priority: TaskPriorities.Low,
+        startDate: '',
+        deadline: '',
+        id: '4',
+        todoListId: 'todolistId2',
+        order: 0,
+        addedDate: new Date
+    }
+    const action = addTaskAC(task, 'todolistId2')
 
-    // const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action)
 
-    // expect(endState['todolistId1'].length).toBe(3)
-    // expect(endState['todolistId2'].length).toBe(4)
-    // expect(endState['todolistId2'][3].id).toBeDefined()
-    // expect(endState['todolistId2'][3].title).toBe('juce')
-    // expect(endState['todolistId2'][3].completed).toBe(false)
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'].length).toBe(4)
+    expect(endState['todolistId2'][3].id).toBeDefined()
+    expect(endState['todolistId2'][3].title).toBe('juce')
+    expect(endState['todolistId2'][3].completed).toBe(false)
 })
 
 
@@ -203,7 +216,13 @@ test('title of specified task should be changed', () => {
 
 
 test('new array should be added when new todolist is added', () => {
-    const action = addTodolistTC('new todolist')
+    const todolist = {
+        id: 'todolistId3',
+        addedDate: new Date,
+        order: 1,
+        title: 'new todolist'
+    }
+    const action = addTodolistAC(todolist)
 
     const endState = tasksReducer(startState, action)
 

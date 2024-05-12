@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
-import { tasksAPI } from '../api/tasks-api'
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from '../api/tasks-api'
 
 export default {
     title: 'API',
@@ -30,7 +30,7 @@ export const CreateTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [value, setValue] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -52,11 +52,20 @@ export const CreateTasks = () => {
 }
 
 export const UpdateTasks = () => {
-    const [value, setValue] = useState<string>('')
+    const [value, setValue] = useState<UpdateTaskModelType>(
+        {
+            title: '',
+            startDate: '',
+            priority: TaskPriorities.Low,
+            description: '',
+            deadline: '',
+            status: TaskStatuses.InProgress,
+        }
+    )
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
- 
+
     const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
@@ -64,7 +73,15 @@ export const UpdateTasks = () => {
         setTaskId(e.currentTarget.value)
     }
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
+        const newValue = e.currentTarget.value
+        setValue({
+            title: newValue,
+            startDate: '',
+            priority: TaskPriorities.Low,
+            description: '',
+            deadline: '',
+            status: TaskStatuses.InProgress,
+        })
     }
     const onClickHandler = () => {
         tasksAPI.updateTask(todolistId, taskId, value)
@@ -83,14 +100,14 @@ export const DeleteTasks = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
-  
+
     const onChangeTodoHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTodolistId(e.currentTarget.value)
     }
     const onChangeTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTaskId(e.currentTarget.value)
     }
-    const onClickHandler= () => {
+    const onClickHandler = () => {
         tasksAPI.deleteTask(todolistId, taskId)
             .then(res => { setState(res.data) })
     }

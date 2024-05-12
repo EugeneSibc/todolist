@@ -32,7 +32,13 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    let newTodolistTitle = "New Todolist";
+    let newTodolistTitle = {
+        id: v1(),
+        addedDate: new Date,
+        order: 1,
+        title: 'new todolist',
+        filter: 'all'
+    };
 
     const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
 
@@ -74,8 +80,15 @@ test('correct filter of todolist should be changed', () => {
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {}
     const startTodolistsState: TodolistDomainType[] = []
+    const todolist = {
+        id: v1(),
+        addedDate: new Date,
+        order: 1,
+        title: 'new todolist',
+        filter: 'all'
+    }
 
-    const action = addTodolistAC('new todolist')
+    const action = addTodolistAC(todolist)
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -84,6 +97,6 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0]
     const idFromTodolists = endTodolistsState[0].id
 
-    expect(idFromTasks).toBe(action.todolistId)
-    expect(idFromTodolists).toBe(action.todolistId)
+    expect(idFromTasks).toBe(action.todolist.id)
+    expect(idFromTodolists).toBe(action.todolist.id)
 })
