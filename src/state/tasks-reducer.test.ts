@@ -3,6 +3,7 @@ import { addTaskAC, removeTaskAC, tasksReducer, changeTaskStatusAC, changeTaskTi
 import { addTodolistAC, removeTodolistAC } from './todolists-reducer'
 
 let startState: TasksStateType
+const date = new Date;
 beforeEach(() => {
     startState = {
         'todolistId1': [
@@ -17,7 +18,7 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -30,7 +31,7 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -43,7 +44,7 @@ beforeEach(() => {
                 id: '3',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             }
         ],
         'todolistId2': [
@@ -58,7 +59,7 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistId2',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -71,7 +72,7 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistId2',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -84,7 +85,7 @@ beforeEach(() => {
                 id: '3',
                 todoListId: 'todolistId2',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             }
         ]
     }
@@ -108,7 +109,7 @@ test('correct task should be deleted from correct array', () => {
                 id: '1',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -121,7 +122,7 @@ test('correct task should be deleted from correct array', () => {
                 id: '2',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
@@ -134,7 +135,7 @@ test('correct task should be deleted from correct array', () => {
                 id: '3',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             }
         ],
         'todolistId2': [
@@ -149,20 +150,20 @@ test('correct task should be deleted from correct array', () => {
                 id: '1',
                 todoListId: 'todolistId2',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             },
             {
                 description: '',
-                title: 'bread',
-                completed: true,
-                status: TaskStatuses.Completed,
+                title: 'tea',
+                completed: false,
+                status: TaskStatuses.InProgress,
                 priority: TaskPriorities.Low,
                 startDate: '',
                 deadline: '',
-                id: '2',
+                id: '3',
                 todoListId: 'todolistId2',
                 order: 0,
-                addedDate: new Date
+                addedDate: date
             }
         ]
     })
@@ -200,13 +201,13 @@ test('status of specified task should be changed', () => {
 
     const endState = tasksReducer(startState, action)
 
-    expect(endState['todolistId2'][0].completed).toBe(TaskStatuses.InProgress)
-    expect(endState['todolistId2'][1].completed).toBe(TaskStatuses.InProgress)
+    expect(endState['todolistId2'][0].status).toBe(TaskStatuses.InProgress)
+    expect(endState['todolistId2'][1].status).toBe(TaskStatuses.InProgress)
 })
 
 
 test('title of specified task should be changed', () => {
-    const action = changeTaskTitleAC('3', 'coffe', 'todolistId2')
+    const action = changeTaskTitleAC('todolistId2', '3', 'coffe' )
 
     const endstate = tasksReducer(startState, action)
 
