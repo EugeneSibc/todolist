@@ -1,5 +1,5 @@
-import { TaskPriorities, TaskStatuses } from '../api/tasks-api'
-import { addTaskAC, removeTaskAC, tasksReducer, changeTaskStatusAC, changeTaskTitleAC, TasksStateType } from './tasks-reducer'
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType } from '../api/tasks-api'
+import { addTaskAC, changeTaskAC, removeTaskAC, tasksReducer, TasksStateType } from './tasks-reducer'
 import { addTodolistAC, removeTodolistAC } from './todolists-reducer'
 
 let startState: TasksStateType
@@ -197,7 +197,15 @@ test('correct task should be added to correct array', () => {
 
 
 test('status of specified task should be changed', () => {
-    const action = changeTaskStatusAC('todolistId2','2', TaskStatuses.InProgress )
+    const model:UpdateTaskModelType = {
+        title: 'string',
+        startDate: 'string',
+        priority: TaskPriorities.Low,
+        description: 'string',
+        deadline: 'string',
+        status: TaskStatuses.InProgress,
+    }
+    const action = changeTaskAC('todolistId2', '2', model)
 
     const endState = tasksReducer(startState, action)
 
@@ -207,7 +215,15 @@ test('status of specified task should be changed', () => {
 
 
 test('title of specified task should be changed', () => {
-    const action = changeTaskTitleAC('todolistId2', '3', 'coffe' )
+    const model:UpdateTaskModelType = {
+        title: 'coffe',
+        startDate: 'string',
+        priority: TaskPriorities.Low,
+        description: 'string',
+        deadline: 'string',
+        status: TaskStatuses.InProgress,
+    }
+    const action = changeTaskAC('todolistId2', '3', model)
 
     const endstate = tasksReducer(startState, action)
 
