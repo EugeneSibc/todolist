@@ -15,7 +15,7 @@ export function AppWithRedux() {
 
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch<AppThunkDispatch>()
+    const dispatch = useAppDispatch()
 
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskTC(title, todolistId))
@@ -75,8 +75,7 @@ export function AppWithRedux() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-                            let allTasksForTodolist = tasks[tl.id]
-                            let tasksForTodolist = allTasksForTodolist
+                            let tasksForTodolist = tasks[tl.id]
                             return <Grid key={tl.id} item>
                                 <Paper style={{ padding: "10px" }}>
                                     <TodolistWithRedux

@@ -33,11 +33,12 @@ export type GetTask = {
 }
 export type UpdateTaskModelType = {
     title: string,
-    startDate: string,
-    priority: TaskPriorities,
     description: string,
+    completed: boolean,
+    status: TaskStatuses, 
+    priority: TaskPriorities,
+    startDate: string,
     deadline: string,
-    status: TaskStatuses,
 }
 
 type ResponseType<D = {}> = {

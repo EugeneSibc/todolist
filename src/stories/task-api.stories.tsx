@@ -55,11 +55,12 @@ export const UpdateTasks = () => {
     const [value, setValue] = useState<UpdateTaskModelType>(
         {
             title: '',
-            startDate: '',
-            priority: TaskPriorities.Low,
             description: '',
-            deadline: '',
+            completed: false,
             status: TaskStatuses.InProgress,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
         }
     )
     const [todolistId, setTodolistId] = useState<string>('')
@@ -76,11 +77,12 @@ export const UpdateTasks = () => {
         const newValue = e.currentTarget.value
         setValue({
             title: newValue,
-            startDate: '',
-            priority: TaskPriorities.Low,
             description: '',
-            deadline: '',
+            completed: false,
             status: TaskStatuses.InProgress,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
         })
     }
     const onClickHandler = () => {

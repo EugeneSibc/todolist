@@ -197,13 +197,14 @@ test('correct task should be added to correct array', () => {
 
 
 test('status of specified task should be changed', () => {
-    const model:UpdateTaskModelType = {
+    const model: UpdateTaskModelType = {
         title: 'string',
-        startDate: 'string',
-        priority: TaskPriorities.Low,
         description: 'string',
-        deadline: 'string',
+        completed: false,
         status: TaskStatuses.InProgress,
+        priority: TaskPriorities.Low,
+        startDate: 'string',
+        deadline: 'string',
     }
     const action = changeTaskAC('todolistId2', '2', model)
 
@@ -215,13 +216,14 @@ test('status of specified task should be changed', () => {
 
 
 test('title of specified task should be changed', () => {
-    const model:UpdateTaskModelType = {
+    const model: UpdateTaskModelType = {
         title: 'coffe',
-        startDate: 'string',
-        priority: TaskPriorities.Low,
         description: 'string',
-        deadline: 'string',
+        completed: false,
         status: TaskStatuses.InProgress,
+        priority: TaskPriorities.Low,
+        startDate: 'string',
+        deadline: 'string',
     }
     const action = changeTaskAC('todolistId2', '3', model)
 
