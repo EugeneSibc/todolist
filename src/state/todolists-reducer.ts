@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import { TodolistData, todolistsAPI } from "../api/todolists-api";
 import { Dispatch } from "redux";
+import { setAppErrorAC, setAppStatusAC } from "./app-reducer";
 
 export type TodolistsReducerActionsType = RemoveTodolistACType
     | AddTodolistACType
@@ -39,28 +40,43 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
 }
 
 export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTodolists()
         .then((res: { data: TodolistData[]; }) => {
             dispatch(setTodolistsAC(res.data))
+            dispatch(setAppStatusAC('succeeded'))
         })
 }
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistsAPI.createTodolist(title).then(res => {
+        if (res.data.resultCode === 0) {
         const todolist = res.data.data.item
-        const action = addTodolistAC(todolist)
-        dispatch(action)
+        dispatch(addTodolistAC(todolist))
+        dispatch(setAppStatusAC('succeeded'))
+        } else {
+            if (res.data.messages.length) {
+                dispatch(setAppErrorAC(res.data.messages[0]))
+            } else {
+                dispatch(setAppErrorAC('Some error'))   
+            }
+            dispatch(setAppStatusAC('failed'))
+        }
     })
 }
 export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistsAPI.deleteTodolist(id).then(res => {
-        const action = removeTodolistAC(id)
-        dispatch(action)
+        dispatch(removeTodolistAC(id))
+        dispatch(setAppStatusAC('succeeded'))
+
     })
 }
 export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistsAPI.updateTodolist(id, title).then(res => {
-        const action = changeTodolistTitleAC(id, title)
-        dispatch(action)
+        dispatch(changeTodolistTitleAC(id, title))
+        dispatch(setAppStatusAC('succeeded'))
     })
 }
 
