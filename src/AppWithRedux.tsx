@@ -1,20 +1,32 @@
-import React, {  useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './App.css';
-import { AddItemForm } from './components/AddItemForm';
-import AppBar from '@mui/material/AppBar/AppBar';
-import { Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
-import { Menu } from "@mui/icons-material";
+import { AddItemForm } from './components/addItemForm/AddItemForm';
 import { FilterValuesType, TodolistDomainType, addTodolistAC, addTodolistTC, changeFilterAC, changeTodolistTitleAC, changeTodolistTitleTC, fetchTodolistsTC, removeTodolistAC, removeTodolistTC } from './state/todolists-reducer';
-import {  TasksStateType, addTaskAC, addTaskTC,  removeTaskAC, removeTaskTC,  updateTaskTC } from './state/tasks-reducer';
+import { TasksStateType, addTaskAC, addTaskTC, removeTaskAC, removeTaskTC, updateTaskTC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType, AppThunkDispatch, useAppDispatch } from './state/store';
 import { TodolistWithRedux } from './components/todolist/TodolistWithRedux';
 import { TaskStatuses } from './api/tasks-api';
+import LinearProgress from '@mui/material/LinearProgress';
+import AppBar from '@mui/material/AppBar/AppBar';
+import Menu from "@mui/icons-material/Menu";
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { RequestStatusType } from './state/app-reducer';
+import Box from '@mui/material/Box';
+import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
+
 
 export function AppWithRedux() {
 
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const dispatch = useAppDispatch()
 
     const addTask = useCallback((title: string, todolistId: string) => {
@@ -25,12 +37,12 @@ export function AppWithRedux() {
         dispatch(removeTaskTC(id, todolistId))
     }, [])
 
-    const changeStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses ) => {
-        dispatch(updateTaskTC(todolistId, taskId, {status} ))
+    const changeStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
+        dispatch(updateTaskTC(todolistId, taskId, { status }))
     }, [])
 
-    const changeTaskTitle = useCallback((todolistId: string, id: string, title: string, ) => {
-        dispatch(updateTaskTC(todolistId, id, {title}))
+    const changeTaskTitle = useCallback((todolistId: string, id: string, title: string,) => {
+        dispatch(updateTaskTC(todolistId, id, { title }))
     }, [])
 
     const changeFilter = useCallback((todolistId: string, value: FilterValuesType) => {
@@ -57,6 +69,7 @@ export function AppWithRedux() {
 
     return (
         <div className="App">
+            <ErrorSnackbar />
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -67,6 +80,15 @@ export function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                {
+                    status === 'loading' &&
+                    <Box sx={{
+                        width: '100%',
+                        position: 'fixed'
+                    }}>
+                        <LinearProgress />
+                    </Box>
+                }
             </AppBar>
             <Container fixed>
                 <Grid container style={{ padding: "20px" }}>
