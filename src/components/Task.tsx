@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback } from 'react';
-import { EditableSpan } from './EditableSpan';
+import { EditableSpan } from './editableSpan/EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import { Delete } from '@mui/icons-material';
 import { TaskData, TaskStatuses } from '../api/tasks-api';
