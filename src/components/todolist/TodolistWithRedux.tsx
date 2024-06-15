@@ -10,11 +10,13 @@ import { TaskData, TaskStatuses } from '../../api/tasks-api';
 import { useAppDispatch } from '../../state/store';
 import { fetchTasksTC } from '../../state/tasks-reducer';
 import { useDispatch } from 'react-redux';
+import { RequestStatusType } from '../../state/app-reducer';
 
 
 type PropsType = {
     id: string
     title: string
+    entityStatus:RequestStatusType
     tasks: TaskData[]
     filter: FilterValuesType
     addTask:(title: string, todolistId: string) => void
@@ -60,11 +62,11 @@ export const TodolistWithRedux = (props: PropsType) => {
 
     return <div>
         <h3> <EditableSpan value={props.title} callBack={changeTodolistTitle} />
-            <IconButton onClick={removeTodolist}>
+            <IconButton onClick={removeTodolist} disabled={props.entityStatus === 'loading'}>
                 <Delete />
             </IconButton>
         </h3>
-        <AddItemForm callBack={addTask} />
+        <AddItemForm callBack={addTask} entityStatus={props.entityStatus}/>
         <div>
             {
                 tasksForTodolist.map(t => 

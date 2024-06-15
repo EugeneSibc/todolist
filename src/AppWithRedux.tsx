@@ -103,6 +103,7 @@ export function AppWithRedux() {
                                     <TodolistWithRedux
                                         id={tl.id}
                                         title={tl.title}
+                                        entityStatus={tl.entityStatus}
                                         tasks={tasksForTodolist}
                                         filter={tl.filter}
                                         addTask={addTask}
