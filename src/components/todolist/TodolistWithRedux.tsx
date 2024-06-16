@@ -66,7 +66,7 @@ export const TodolistWithRedux = (props: PropsType) => {
                 <Delete />
             </IconButton>
         </h3>
-        <AddItemForm callBack={addTask} entityStatus={props.entityStatus}/>
+        <AddItemForm callBack={addTask} disabled={props.entityStatus === 'loading'}/>
         <div>
             {
                 tasksForTodolist.map(t => 
@@ -77,6 +77,7 @@ export const TodolistWithRedux = (props: PropsType) => {
                     changeTaskTitle={props.changeTaskTitle}
                     task={t}
                     todolistId={props.id}
+                    entityStatus={props.entityStatus}
                 />)
             }
         </div>

@@ -2,6 +2,7 @@ import { v1 } from "uuid";
 import { TodolistData, todolistsAPI } from "../api/todolists-api";
 import { Dispatch } from "redux";
 import { RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
+import { handleServerAppError, handleServerNetworkError } from "../utils/error-utils";
 
 export type TodolistsReducerActionsType = RemoveTodolistACType
     | AddTodolistACType
@@ -60,12 +61,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
             dispatch(addTodolistAC(todolist))
             dispatch(setAppStatusAC('succeeded'))
         } else {
-            if (res.data.messages.length) {
-                dispatch(setAppErrorAC(res.data.messages[0]))
-            } else {
-                dispatch(setAppErrorAC('Some error'))
-            }
-            dispatch(setAppStatusAC('failed'))
+            handleServerAppError(res.data, dispatch)
         }
     })
 }
@@ -76,18 +72,20 @@ export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
         dispatch(removeTodolistAC(id))
         dispatch(setAppStatusAC('succeeded'))
     }).catch((e) => {
-        dispatch(setAppStatusAC('succeeded'))
-        dispatch(changeTodolistEntityStatusAC(id,'idle'))
-        dispatch(setAppErrorAC('Some error'))
-    }
-
-    )
+        handleServerNetworkError(e.message, dispatch)
+    })
 }
 export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.updateTodolist(id, title).then(res => {
-        dispatch(changeTodolistTitleAC(id, title))
-        dispatch(setAppStatusAC('succeeded'))
+        if(res.data.resultCode === 0){
+            dispatch(changeTodolistTitleAC(id, title))
+            dispatch(setAppStatusAC('succeeded'))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }          
+    }).catch((e) => {
+        handleServerNetworkError(e.message, dispatch)
     })
 }
 
