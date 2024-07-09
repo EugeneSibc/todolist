@@ -6,9 +6,9 @@ import { Delete } from "@mui/icons-material";
 import { Button, Checkbox } from "@mui/material";
 import { FilterValuesType } from '../../state/todolists-reducer';
 import { Task } from '../Task';
-import { TaskData, TaskStatuses } from '../../api/tasks-api';
+import { TaskStatuses } from '../../api/tasks-api';
 import { useAppDispatch } from '../../state/store';
-import { fetchTasksTC } from '../../state/tasks-reducer';
+import { TaskNewData, fetchTasksTC } from '../../state/tasks-reducer';
 import { useDispatch } from 'react-redux';
 import { RequestStatusType } from '../../state/app-reducer';
 
@@ -17,7 +17,7 @@ type PropsType = {
     id: string
     title: string
     entityStatus:RequestStatusType
-    tasks: TaskData[]
+    tasks: TaskNewData[]
     filter: FilterValuesType
     addTask:(title: string, todolistId: string) => void
     removeTask:(id: string, todolistId: string) => void
@@ -61,7 +61,9 @@ export const TodolistWithRedux = (props: PropsType) => {
     }
 
     return <div>
-        <h3> <EditableSpan value={props.title} callBack={changeTodolistTitle} />
+        <h3> <EditableSpan value={props.title}
+                        callBack={changeTodolistTitle}
+                        disabled={props.entityStatus === 'loading'} />
             <IconButton onClick={removeTodolist} disabled={props.entityStatus === 'loading'}>
                 <Delete />
             </IconButton>
