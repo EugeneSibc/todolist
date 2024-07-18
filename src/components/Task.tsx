@@ -34,9 +34,9 @@ export const Task = React.memo((props: TaskProps) => {
         <input type='checkbox' onChange={onChangeHandler} checked={props.task.status === TaskStatuses.Completed} />
         <EditableSpan value={props.task.title}
                     callBack={onTitleChangeHandler}
-                    disabled={props.entityStatus === 'loading' || props.task.entityTaskStatus === 'loading'}/>
+                    disabled={props.task.entityTaskStatus === 'loading' || props.entityStatus === 'loading'}/>
         <IconButton onClick={onClickHandler} 
-                    disabled={props.entityStatus === 'loading' || props.task.entityTaskStatus === 'loading'}>
+                    disabled={props.task.entityTaskStatus === 'loading' || props.entityStatus === 'loading'}>
             <Delete />
         </IconButton>
     </div>

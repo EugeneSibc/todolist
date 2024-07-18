@@ -73,7 +73,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
         }
         case "CHANGE-TASK-ENTITY-STATUS": {
             return {...state, [action.todolistId]:state[action.todolistId].map(
-                t => t.id === action.taskId ? { ...t, entityStatus: action.entityTaskStatus } : t
+                t => t.id === action.taskId ? { ...t, entityTaskStatus: action.entityTaskStatus } : t
             ) }
         }
         default:
@@ -97,7 +97,6 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch, getStat
     tasksAPI.getTask(todolistId)
         .then(res => {
             const tasks = res.data.items 
-            console.log(tasks)
             const newTasks = tasks.map(t => ({...t, entityTaskStatus: 'idle' as RequestStatusType}))
 
             dispatch(setTaskAC(newTasks, todolistId))
@@ -106,14 +105,14 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch, getStat
 }
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    const action = changeEntityTaskStatusAC(todolistId, taskId, 'loading')
-    dispatch(action);
+    dispatch(changeEntityTaskStatusAC(todolistId, taskId, 'loading'));
     tasksAPI.deleteTask(todolistId, taskId)
     .then(res => {
         dispatch(removeTaskAC(taskId, todolistId))
         dispatch(setAppStatusAC('succeeded'))
     }).catch((e) => {
         handleServerNetworkError(e.message, dispatch)
+        dispatch(changeEntityTaskStatusAC(todolistId, taskId, 'failed'));
     })
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch) => {
