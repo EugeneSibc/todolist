@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.css';
-import { useSelector } from 'react-redux';
-import { AppRootStateType, useAppDispatch } from './state/store';
 import LinearProgress from '@mui/material/LinearProgress';
 import AppBar from '@mui/material/AppBar/AppBar';
 import Menu from "@mui/icons-material/Menu";
@@ -10,21 +7,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { RequestStatusType } from './state/app-reducer';
 import Box from '@mui/material/Box';
-import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
-import { fetchTodolistsTC } from './state/todolists-reducer';
-import { Outlet } from 'react-router-dom';
+import ErrorSnackbar from '../../components/errorSnackbar/ErrorSnackbar';
+import { useSelector } from 'react-redux';
+import { AppRootStateType } from '../../state/store';
+import { RequestStatusType } from '../../state/app-reducer';
 
-
-export function AppWithRedux() {
-    
+export function ErrorPage() {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    }, [])
 
     return (
         <div className="App">
@@ -50,7 +40,7 @@ export function AppWithRedux() {
                 }
             </AppBar>
             <Container fixed>
-                <Outlet/>          
+                <h1>Page not found (404)</h1>          
             </Container>
         </div>
     );
