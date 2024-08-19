@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {AxiosResponse} from 'axios'
+import { LoginData } from '../features/Login/Login'
 
 export type TodolistData = {
     id: string
@@ -6,12 +8,12 @@ export type TodolistData = {
     order: number
     title: string
 }
+
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[]
     data: D
 }
-
 
 const instanse = axios.create({ 
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -20,6 +22,14 @@ const instanse = axios.create({
         'API-KEY': '80165270-2247-469b-804e-2f4f4cafc85a'
     },
 })
+
+export const authAPI = {
+    login(data: LoginData) {
+        return instanse.post<ResponseType<{userId: number}>,
+         AxiosResponse<ResponseType<{userId: number}>>,
+          LoginData>(`/auth/login`, data)
+    }    
+}
 
 export const todolistsAPI = {
     getTodolists() {
