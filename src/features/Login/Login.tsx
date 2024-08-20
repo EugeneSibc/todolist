@@ -8,8 +8,10 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginTC } from '../../state/auth-reducer'
+import { AppRootStateType } from '../../state/store'
+import { Navigate } from 'react-router-dom'
 
 export type LoginData = {
   email: string
@@ -18,6 +20,7 @@ export type LoginData = {
   captcha?: string
 }
 export const Login = () => {
+  const isLogedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
   
   type FormikErrorType = {
@@ -45,9 +48,13 @@ export const Login = () => {
       return errors
     },
     onSubmit: values => {
+      //@ts-ignore
       dispatch(loginTC(values))
     },
   })
+  if(isLogedIn) {
+    return <Navigate to={'/'}/>
+  }
   return (
     <Grid container justifyContent={'center'}>
       <Grid item justifyContent={'center'}>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { AddItemForm } from '../../components/addItemForm/AddItemForm';
@@ -8,12 +8,14 @@ import { addTodolistTC, changeFilterAC, changeTodolistTitleTC, FilterValuesType,
 import { AppRootStateType, useAppDispatch } from '../../state/store';
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from '../../state/tasks-reducer';
 import { TaskStatuses } from '../../api/tasks-api';
+import { Navigate } from 'react-router-dom';
 
 
 
 export const TodolistsList = () => {
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLogedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
 
     const addTask = useCallback((title: string, todolistId: string) => {
@@ -50,6 +52,9 @@ export const TodolistsList = () => {
         dispatch(action);
     }, [])
 
+    if(!isLogedIn) {
+        return <Navigate to={'/login'}/>
+    }
     return (
         <div>
             <Grid container style={{ padding: "20px" }}>

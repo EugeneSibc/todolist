@@ -8,7 +8,11 @@ export type TodolistData = {
     order: number
     title: string
 }
-
+export type AuthType = {
+    id:number
+    email: string
+    login: string
+}
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[]
@@ -24,10 +28,14 @@ const instanse = axios.create({
 })
 
 export const authAPI = {
+    me() {
+        return instanse.get<ResponseType<AuthType>,
+        AxiosResponse<ResponseType<AuthType>>>(`auth/me`)
+    },
     login(data: LoginData) {
         return instanse.post<ResponseType<{userId: number}>,
          AxiosResponse<ResponseType<{userId: number}>>,
-          LoginData>(`/auth/login`, data)
+          LoginData>(`auth/login`, data)
     }    
 }
 

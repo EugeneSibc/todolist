@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
 import { fetchTodolistsTC } from './state/todolists-reducer';
 import { Outlet } from 'react-router-dom';
+import { meTC } from './state/auth-reducer';
 
 
 export function AppWithRedux() {
@@ -25,6 +26,9 @@ export function AppWithRedux() {
     useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [])
+    useEffect(() => {
+        dispatch(meTC())
+    },[])
 
     return (
         <div className="App">
