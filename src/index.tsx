@@ -19,14 +19,14 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to='/todolists'/>
+                element: <Navigate to='/todolist'/>
             },
             {
                 path: '/login',
                 element: <Login/>
             },
             {
-                path: '/todolists',
+                path: '/todolist',
                 element: <TodolistsList/>
             }
         ]
