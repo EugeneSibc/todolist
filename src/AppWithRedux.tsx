@@ -15,21 +15,36 @@ import Box from '@mui/material/Box';
 import ErrorSnackbar from './components/errorSnackbar/ErrorSnackbar';
 import { fetchTodolistsTC } from './state/todolists-reducer';
 import { Outlet } from 'react-router-dom';
-import { meTC } from './state/auth-reducer';
+import { logoutTC, meTC } from './state/auth-reducer';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export function AppWithRedux() {
-    
+
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
+
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
+        
+            dispatch(fetchTodolistsTC())
+        
     }, [])
     useEffect(() => {
         dispatch(meTC())
-    },[])
-
+    }, [])
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
+    if (!isInitialized) {
+        return (
+          <div style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
+            <CircularProgress />
+          </div>
+        )
+    }
     return (
         <div className="App">
             <ErrorSnackbar />
@@ -41,7 +56,7 @@ export function AppWithRedux() {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
                 </Toolbar>
                 {
                     status === 'loading' &&
@@ -54,7 +69,7 @@ export function AppWithRedux() {
                 }
             </AppBar>
             <Container fixed>
-                <Outlet/>          
+                <Outlet />
             </Container>
         </div>
     );

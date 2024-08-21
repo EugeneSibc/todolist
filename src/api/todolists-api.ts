@@ -36,6 +36,9 @@ export const authAPI = {
         return instanse.post<ResponseType<{userId: number}>,
          AxiosResponse<ResponseType<{userId: number}>>,
           LoginData>(`auth/login`, data)
+    },
+    logout(){
+        return instanse.delete<ResponseType>(`auth/login`)
     }    
 }
 

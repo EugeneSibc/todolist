@@ -15,7 +15,7 @@ import { Navigate } from 'react-router-dom';
 export const TodolistsList = () => {
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLogedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
 
     const addTask = useCallback((title: string, todolistId: string) => {
@@ -52,7 +52,7 @@ export const TodolistsList = () => {
         dispatch(action);
     }, [])
 
-    if(!isLogedIn) {
+    if(!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
     return (

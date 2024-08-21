@@ -20,7 +20,7 @@ export type LoginData = {
   captcha?: string
 }
 export const Login = () => {
-  const isLogedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
   
   type FormikErrorType = {
@@ -52,7 +52,7 @@ export const Login = () => {
       dispatch(loginTC(values))
     },
   })
-  if(isLogedIn) {
+  if(isLoggedIn) {
     return <Navigate to={'/'}/>
   }
   return (

@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import {
     SetAppErrorAC,
+    setAppIsInitializedAC,
     SetAppStatusAC,
     setAppStatusAC
 } from './app-reducer'
@@ -44,6 +45,20 @@ export const loginTC = (value: LoginData) => async (dispatch: Dispatch<ActionsTy
         handleServerNetworkError(e as {message: string}, dispatch)
     }
 }
+export const logoutTC = () => async (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        const res = await authAPI.logout()
+        if (res.data.resultCode === 0) {
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setAppStatusAC('succeeded'))
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (e) {
+        handleServerNetworkError(e as {message: string}, dispatch)
+    }
+}
 export const meTC = () => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
@@ -56,6 +71,8 @@ export const meTC = () => async (dispatch: Dispatch) => {
         }
     } catch (e) {
         handleServerNetworkError(e as {message: string}, dispatch)
+    } finally {
+        dispatch(setAppIsInitializedAC(true))
     }
 }
 // types
