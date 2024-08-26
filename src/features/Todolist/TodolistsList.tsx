@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import { AddItemForm } from '../../components/addItemForm/AddItemForm';
 import { TodolistWithRedux } from '../../components/todolist/TodolistWithRedux';
 import { useSelector } from 'react-redux';
-import { addTodolistTC, changeFilterAC, changeTodolistTitleTC, FilterValuesType, removeTodolistTC, TodolistDomainType } from '../../state/todolists-reducer';
+import { addTodolistTC, changeFilterAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValuesType, removeTodolistTC, TodolistDomainType } from '../../state/todolists-reducer';
 import { AppRootStateType, useAppDispatch } from '../../state/store';
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from '../../state/tasks-reducer';
 import { TaskStatuses } from '../../api/tasks-api';
@@ -17,6 +17,13 @@ export const TodolistsList = () => {
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            console.log('todolist loading')
+            dispatch(fetchTodolistsTC())
+        }``
+    }, [])
 
     const addTask = useCallback((title: string, todolistId: string) => {
         dispatch(addTaskTC(title, todolistId))
@@ -52,8 +59,8 @@ export const TodolistsList = () => {
         dispatch(action);
     }, [])
 
-    if(!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'} />
     }
     return (
         <div>

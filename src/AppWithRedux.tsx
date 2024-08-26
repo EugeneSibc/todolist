@@ -28,11 +28,6 @@ export function AppWithRedux() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        
-            dispatch(fetchTodolistsTC())
-        
-    }, [])
-    useEffect(() => {
         dispatch(meTC())
     }, [])
     const logoutHandler = () => {
