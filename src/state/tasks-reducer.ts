@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { AddTodolistACType, RemoveTodolistACType, SetTodolistsAC, addTodolistAC } from "./todolists-reducer"
+import { AddTodolistACType, RemoveTodolistACType, SetTodolistsAC, UnloadTodolistsAC, addTodolistAC } from "./todolists-reducer"
 import { GetTask, TaskData, TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from "../api/tasks-api";
 import { Dispatch } from "redux";
 import { AppRootStateType } from "./store";
@@ -15,6 +15,7 @@ export type TasksReducerActionsType = RemoveTaskACType
     | SetTodolistsAC
     | setTaskACType
     | ChangeEntityTaskStatusAC
+    | UnloadTodolistsAC
 
 export type TaskNewData = TaskData &  {
     entityTaskStatus: RequestStatusType
@@ -34,7 +35,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
                     t => t.id !== action.payload.id
                 )
             }
-
         case "ADD-TASK": {           
             return {
                 ...state,
@@ -75,6 +75,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             return {...state, [action.todolistId]:state[action.todolistId].map(
                 t => t.id === action.taskId ? { ...t, entityTaskStatus: action.entityTaskStatus } : t
             ) }
+        }
+        case "UNLOAD-TODOLISTS" : {
+            return state = {}
         }
         default:
             return state

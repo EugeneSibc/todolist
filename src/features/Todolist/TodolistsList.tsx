@@ -22,7 +22,7 @@ export const TodolistsList = () => {
         if (isLoggedIn) {
             console.log('todolist loading')
             dispatch(fetchTodolistsTC())
-        }``
+        }
     }, [])
 
     const addTask = useCallback((title: string, todolistId: string) => {

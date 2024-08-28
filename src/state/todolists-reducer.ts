@@ -3,6 +3,7 @@ import { TodolistData, todolistsAPI } from "../api/todolists-api";
 import { Dispatch } from "redux";
 import { RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../utils/error-utils";
+import { fetchTasksTC } from "./tasks-reducer";
 
 export type TodolistsReducerActionsType = RemoveTodolistACType
     | AddTodolistACType
@@ -10,6 +11,7 @@ export type TodolistsReducerActionsType = RemoveTodolistACType
     | ChangeFilterACType
     | SetTodolistsAC
     | ChangeTodolistEntityStatusAC
+    | UnloadTodolistsAC
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -40,6 +42,9 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
         case "CHANGE-ENTITY-STATUS": {
             return state.map(el => el.id === action.id ? { ...el, entityStatus: action.entityStatus } : el)
         }
+        case "UNLOAD-TODOLISTS" : {
+            return state = []
+        }
         default:
             return state
     }
@@ -51,6 +56,10 @@ export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
         .then((res: { data: TodolistData[]; }) => {
             dispatch(setTodolistsAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
+            return res.data
+        })
+        .then((todos) => {
+            todos.forEach(i => fetchTasksTC(i.id))
         })
 }
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
@@ -97,7 +106,6 @@ export const removeTodolistAC = (id: string) => {
         id
     } as const
 }
-
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>
 export const addTodolistAC = (todolist: TodolistData) => {
     return {
@@ -105,7 +113,6 @@ export const addTodolistAC = (todolist: TodolistData) => {
         todolist
     } as const
 }
-
 type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 export const changeTodolistTitleAC = (id: string, title: string) => {
     return {
@@ -113,7 +120,6 @@ export const changeTodolistTitleAC = (id: string, title: string) => {
         id, title
     } as const
 }
-
 type ChangeFilterACType = ReturnType<typeof changeFilterAC>
 export const changeFilterAC = (id: string, filter: FilterValuesType) => {
     return {
@@ -122,7 +128,6 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => {
         filter
     } as const
 }
-
 export type SetTodolistsAC = ReturnType<typeof setTodolistsAC>
 export const setTodolistsAC = (todolists: TodolistData[]) => {
     return {
@@ -130,12 +135,17 @@ export const setTodolistsAC = (todolists: TodolistData[]) => {
         todolists
     } as const
 }
-
 type ChangeTodolistEntityStatusAC = ReturnType<typeof changeTodolistEntityStatusAC>
 export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestStatusType) => {
     return {
         type: 'CHANGE-ENTITY-STATUS',
         id,
         entityStatus
+    } as const
+}
+export type UnloadTodolistsAC = ReturnType<typeof unloadTodolistsAC>
+export const unloadTodolistsAC = () => {
+    return {
+        type: 'UNLOAD-TODOLISTS',
     } as const
 }

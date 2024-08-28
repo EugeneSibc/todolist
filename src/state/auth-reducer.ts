@@ -8,6 +8,7 @@ import {
 import { authAPI} from '../api/todolists-api'
 import { handleServerAppError, handleServerNetworkError } from '../utils/error-utils'
 import { LoginData } from '../features/Login/Login'
+import { unloadTodolistsAC } from './todolists-reducer'
 
 const initialState = {
     isLoggedIn: false,
@@ -52,6 +53,7 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(false))
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(unloadTodolistsAC())
         } else {
             handleServerAppError(res.data, dispatch)
         }
