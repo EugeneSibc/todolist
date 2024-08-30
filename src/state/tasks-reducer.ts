@@ -3,7 +3,7 @@ import { AddTodolistACType, RemoveTodolistACType, SetTodolistsAC, UnloadTodolist
 import { GetTask, TaskData, TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from "../api/tasks-api";
 import { Dispatch } from "redux";
 import { AppRootStateType } from "./store";
-import { RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
+import { ActionsType, RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../utils/error-utils";
 import { log } from "console";
 
@@ -95,14 +95,13 @@ type UpdateDomainTaskModelType = {
     deadline?: string,
 }
 
-export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     tasksAPI.getTask(todolistId)
         .then(res => {
             const tasks = res.data.items 
-            const newTasks = tasks.map(t => ({...t, entityTaskStatus: 'idle' as RequestStatusType}))
-
-            dispatch(setTaskAC(newTasks, todolistId))
+            const newTasks = tasks.map(t => ({...t, entityTaskStatus: 'idle' as RequestStatusType}))            
+            dispatch(setTaskAC(newTasks, todolistId))            
             dispatch(setAppStatusAC('succeeded'))
         })
 }

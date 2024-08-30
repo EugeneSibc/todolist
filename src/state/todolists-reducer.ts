@@ -1,9 +1,10 @@
 import { v1 } from "uuid";
 import { TodolistData, todolistsAPI } from "../api/todolists-api";
 import { Dispatch } from "redux";
-import { RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
+import { ActionsType, RequestStatusType, setAppErrorAC, setAppStatusAC } from "./app-reducer";
 import { handleServerAppError, handleServerNetworkError } from "../utils/error-utils";
 import { fetchTasksTC } from "./tasks-reducer";
+import { AppThunkDispatch } from "./store";
 
 export type TodolistsReducerActionsType = RemoveTodolistACType
     | AddTodolistACType
@@ -37,6 +38,7 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
             return state.map(el => el.id === action.id ? { ...el, filter: action.filter } : el)
         }
         case "SET-TODOLISTS": {
+            console.log('16')
             return action.todolists.map(tl => ({ ...tl, filter: 'all', entityStatus: 'idle' }))
         }
         case "CHANGE-ENTITY-STATUS": {
@@ -50,7 +52,7 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
     }
 }
 
-export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
+export const fetchTodolistsTC = () => (dispatch: AppThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTodolists()
         .then((res: { data: TodolistData[]; }) => {
@@ -59,7 +61,7 @@ export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
             return res.data
         })
         .then((todos) => {
-            todos.forEach(i => fetchTasksTC(i.id))
+            todos.forEach((i) => dispatch(fetchTasksTC(i.id)))
         })
 }
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {

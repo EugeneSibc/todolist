@@ -29,13 +29,13 @@ type PropsType = {
 }
 
 export const TodolistWithRedux = (props: PropsType) => {
-    console.log("Todolist called")
     // let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(fetchTasksTC(props.id))
-      }, [])
+    // useEffect(() => {
+    //     console.log('7')
+    //     dispatch(fetchTasksTC(props.id))
+    //   }, [])
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
