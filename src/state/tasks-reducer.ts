@@ -22,9 +22,8 @@ const initialState = {
 
     ],
     [todolistID2]: [
-        { id: v1(), title: 'bread', isDone: false },
-        { id: v1(), title: 'milk', isDone: true },
-        { id: v1(), title: 'tea', isDone: false }
+        {id: v1(), title: 'Rest API', isDone: true},
+        {id: v1(), title: 'GraphQL', isDone: false},
     ]
 }
 
@@ -32,7 +31,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     switch (action.type) {
         case 'REMOVE-TASK':
             debugger
-            return { ...state, [action.todolistId]: state[action.todolistId].filter(t => t.id === action.taskId)}
+            return { ...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
         case 'ADD-TASK':
             return {}
         case 'CHANGE-TASK-STATUS':
