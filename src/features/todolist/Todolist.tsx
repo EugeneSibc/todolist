@@ -1,7 +1,7 @@
 import React, { useRef, useState, KeyboardEvent, ChangeEvent } from 'react';
-import Button from '../button/Button';
-import { AddItemForm } from '../AddItemForm';
-import { EditableSpan } from '../EditableSpan';
+import Button from '../../components/button/Button';
+import { AddItemForm } from '../../components/AddItemForm';
+import { EditableSpan } from '../../components/EditableSpan';
 import { FilterValuesType, TaskType } from '../../App';
 
 type TodoListPropsType = {
