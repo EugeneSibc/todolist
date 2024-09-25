@@ -1,7 +1,7 @@
-import {FilterValuesType, TaskType} from "./App";
+import {FilterValuesType, TaskType} from "../App";
 import {ChangeEvent} from "react";
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "../component/AddItemForm";
+import {EditableSpan} from "../component/EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from "@mui/material/Button";
