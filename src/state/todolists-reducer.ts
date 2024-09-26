@@ -1,5 +1,11 @@
-import { FilterValuesType, TodolistType } from "../app/App";
 import { v1 } from "uuid";
+import { FilterValuesType } from "../app/main/Main";
+
+export type TodolistType = {
+	id: string
+	title: string
+	filter: FilterValuesType
+}
 
 export let todolistID1 = v1()
 export let todolistID2 = v1()
