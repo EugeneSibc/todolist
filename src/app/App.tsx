@@ -18,6 +18,8 @@ import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTod
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from '../state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/store';
+import { changeThemeAC, InitialState } from '../state/app-reducer';
+import { getTheme } from './features/theme/theme';
 
 export type TaskType = {
 	id: string
@@ -44,17 +46,10 @@ function App() {
 	const dispatch = useDispatch()
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
 	const tasks = useSelector<RootState, TasksStateType>(state => state.tasks)
+	const themeMode = useSelector<RootState, ThemeMode>(state => state.app.themeMode)
 
-	const [themeMode, setThemeMode] = useState<ThemeMode>('light')
-
-	const theme = createTheme({
-		palette: {
-			mode: themeMode === 'light' ? 'light' : 'dark',
-			primary: {
-				main: '#087EA4',
-			},
-		},
-	});
+	const theme = getTheme(themeMode)
+	
 
 	const removeTask = (taskId: string, todolistId: string) => {
         dispatch(removeTaskAC({taskId, todolistId}))
@@ -73,10 +68,8 @@ function App() {
     }
 
     const removeTodolist = (todolistId: string) => {
-        dispatch(removeTodolistAC(todolistId))
-        
+        dispatch(removeTodolistAC(todolistId))   
     }
-
     const addTodolist = (title: string) => {
 		dispatch(addTodolistAC(title))
     }
@@ -89,7 +82,8 @@ function App() {
         dispatch(changeTodolistTitleAC( { id: todolistId, title }))
     }
 	const changeModeHandler = () => {
-		setThemeMode(themeMode === "light" ? "dark" : 'light')
+		dispatch(changeThemeAC())
+		
 	}
 
 	return (
