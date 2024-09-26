@@ -9,7 +9,7 @@ const initialState = {
 export const appReducer = (state: InitialState = initialState, action: ActionsType): InitialState => {
   switch (action.type) {
     case 'CHANGE_THEME':
-      return {...state, themeMode: state.themeMode === 'light' ? "dark" : 'light'}
+      return {...state, themeMode: action.themeMode}
     default:
       return state
   }
@@ -19,4 +19,4 @@ export const appReducer = (state: InitialState = initialState, action: ActionsTy
 type ActionsType = ReturnType<typeof changeThemeAC>
 
 //ActionCreator
-export const changeThemeAC = () => ({type: 'CHANGE_THEME' } as const )
+export const changeThemeAC = (themeMode:ThemeMode) => ({type: 'CHANGE_THEME', themeMode } as const )

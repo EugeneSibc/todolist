@@ -47,7 +47,7 @@ function App() {
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
 	const tasks = useSelector<RootState, TasksStateType>(state => state.tasks)
 	const themeMode = useSelector<RootState, ThemeMode>(state => state.app.themeMode)
-
+	
 	const theme = getTheme(themeMode)
 	
 
@@ -82,7 +82,7 @@ function App() {
         dispatch(changeTodolistTitleAC( { id: todolistId, title }))
     }
 	const changeModeHandler = () => {
-		dispatch(changeThemeAC())
+		dispatch(changeThemeAC(themeMode === 'light' ? "dark" : 'light'))
 		
 	}
 
