@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import IconButton from "@mui/material/IconButton"
@@ -8,13 +7,15 @@ import { RootState } from "../../../app/store"
 import { changeThemeAC } from "../../../app/app-reducer"
 import { getTheme } from "../../theme/theme"
 import { MenuButton } from "../MenuButton"
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 
 type ThemeMode = 'dark' | 'light'
 
 export const Header = () => {
-    const dispatch = useDispatch()
-    const themeMode = useSelector<RootState, ThemeMode>(state => state.app.themeMode)
+    const dispatch = useAppDispatch()
+    const themeMode = useAppSelector<RootState, ThemeMode>(state => state.app.themeMode)
 
     const theme = getTheme(themeMode)
 
