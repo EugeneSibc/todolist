@@ -1,14 +1,9 @@
-import {ChangeEvent} from "react";
-import {AddItemForm} from "../../../component/AddItemForm";
-import {EditableSpan} from "../../../component/EditableSpan";
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import { addTaskAC, TaskType } from "../../../../state/tasks-reducer";
-import { FilterTasksButtons } from "../../../component/FilterTasksButton";
-import { TodolistType } from "../../../../state/todolists-reducer";
-import { Tasks } from "./tasks/Tasks";
-import { TodolistTitle } from "./todolistTitle/TodolistTitle";
+import { AddItemForm } from "../../../../../common/components/AddItemForm";
+import { addTaskAC } from "../../../model/tasks-reducer";
+import { TodolistType } from "../../../model/todolists-reducer";
+import { FilterTasksButtons } from "./FilterTaskButton/FilterTasksButton";
+import { Tasks } from "./Tasks/Tasks";
+import { TodolistTitle } from "./TodolistTitle/TodolistTitle";
 import { useDispatch } from "react-redux";
 
 

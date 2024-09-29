@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../state/store"
-import { changeThemeAC } from "../../state/app-reducer"
-import { getTheme } from "../features/theme/theme"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import IconButton from "@mui/material/IconButton"
-import { MenuButton } from "../component/MenuButton"
 import Switch from "@mui/material/Switch"
 import MenuIcon from '@mui/icons-material/Menu';
+import { RootState } from "../../../app/store"
+import { changeThemeAC } from "../../../app/app-reducer"
+import { getTheme } from "../../theme/theme"
+import { MenuButton } from "../MenuButton"
 
 
 type ThemeMode = 'dark' | 'light'

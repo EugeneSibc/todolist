@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from "react-redux"
-import { TodolistType } from "../../../../../state/todolists-reducer"
-import { RootState } from "../../../../../state/store"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType } from "../../../../../state/tasks-reducer"
-
-import { ChangeEvent } from "react"
 import List from '@mui/material/List';
-import { Task } from "./task/Task"
+import { TodolistType } from '../../../../model/todolists-reducer';
+import { RootState } from '../../../../../../app/store';
+import { useSelector } from 'react-redux';
+import { TasksStateType } from '../../../../model/tasks-reducer';
+import { Task } from './Task/Task';
 
 
 type Props = {

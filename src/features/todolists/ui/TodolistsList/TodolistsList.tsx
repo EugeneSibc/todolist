@@ -1,13 +1,12 @@
 import Paper from "@mui/material/Paper"
-import { Todolist } from "./todolist/Todolist"
+import { Todolist } from "./Todolist/Todolist"
 import { useDispatch, useSelector } from "react-redux"
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType } from "../../../state/tasks-reducer"
-import { changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC, TodolistType } from "../../../state/todolists-reducer"
-import { FilterValuesType } from "../Main"
-import { RootState } from "../../../state/store"
 import { Grid } from "@mui/material"
+import { RootState } from "../../../../app/store"
+import { TodolistType } from "../../model/todolists-reducer"
+import { addTaskAC } from "../../model/tasks-reducer"
 
-export const TodolistLists = () => {
+export const TodolistsLists = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
 

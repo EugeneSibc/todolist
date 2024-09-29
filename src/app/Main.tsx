@@ -1,11 +1,10 @@
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
-import { AddItemForm } from "../component/AddItemForm"
 import { useDispatch } from "react-redux"
-import { addTodolistAC, } from "../../state/todolists-reducer"
-import { TodolistLists } from "./todolistLists/TodolistLists"
+import { AddItemForm } from "../common/components/AddItemForm"
+import { addTodolistAC } from "../features/todolists/model/todolists-reducer"
+import { TodolistsLists } from "../features/todolists/ui/TodolistsList/TodolistsList"
 
-export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export const Main = () => {
     const dispatch = useDispatch()
@@ -20,7 +19,7 @@ export const Main = () => {
                 <AddItemForm addItem={addTodolist} />
             </Grid>
             <Grid>
-                <TodolistLists />
+                <TodolistsLists />
             </Grid>
         </Container >
     )

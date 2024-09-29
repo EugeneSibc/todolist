@@ -1,13 +1,13 @@
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from "@mui/material/Checkbox"
-import { EditableSpan } from "../../../../../component/EditableSpan";
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../../state/tasks-reducer";
-import { getListItemSx } from "../../Todolist.styles";
 import { useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton"
-import { TodolistType } from "../../../../../../state/todolists-reducer";
 import { ChangeEvent } from "react";
+import { EditableSpan } from "../../../../../../../common/components/EditableSpan";
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../model/tasks-reducer";
+import { getListItemSx } from "./Task.styles";
+import { TodolistType } from "../../../../../model/todolists-reducer";
 
 
 type Props = {

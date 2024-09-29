@@ -1,12 +1,10 @@
-import {
-	addTodolistAC,
-	changeTodolistFilterAC,
-	changeTodolistTitleAC,
-	removeTodolistAC,
-	todolistsReducer,
-	TodolistType
-} from '../state/todolists-reducer'
 import {v1} from 'uuid'
+import { addTodolistAC, 
+	changeTodolistFilterAC, 
+	changeTodolistTitleAC, 
+	removeTodolistAC, 
+	todolistsReducer, 
+	TodolistType } from '../todolists-reducer'
 
 let todolistId1: string
 let todolistId2: string

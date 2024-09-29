@@ -1,5 +1,6 @@
 import { v1 } from "uuid";
-import { FilterValuesType } from "../app/main/Main";
+
+export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type TodolistType = {
 	id: string
