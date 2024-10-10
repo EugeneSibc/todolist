@@ -6,8 +6,8 @@ import { AddItemForm } from './components/AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
 import { Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { FilterValuesType, TodolistDomainType, TodolistsReducerActionsType, addTodolistAC, changeFilterAC, changeTodolistTitleAC, removeTodolistAC, todolistsReducer } from './state/todolists-reducer';
-import { TasksReducerActionsType, TasksStateType, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from './state/tasks-reducer';
+import { FilterValuesType, TodolistDomainType, TodolistsReducerActionsType, addTodolistAC, changeFilterAC, changeTodolistTitleAC, removeTodolistAC, todolistsToolkitReducer } from './state/todolists-reducer';
+import { TasksReducerActionsType, TasksStateType, addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksToolkitReducer } from './state/tasks-reducer';
 import { TaskPriorities, TaskStatuses } from './api/task-api';
 
 
@@ -15,7 +15,7 @@ export function AppWithReducers() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let [todolists, dispatchToTodolistsReducer] = useReducer<Reducer<TodolistDomainType[], TodolistsReducerActionsType>>(todolistsReducer, [
+    let [todolists, dispatchToTodolistsReducer] = useReducer<Reducer<TodolistDomainType[], TodolistsReducerActionsType>>(todolistsToolkitReducer, [
         {
             id: todolistId1, title: "What to learn", filter: "all", addedDate: new Date,
             order: 0
@@ -26,7 +26,7 @@ export function AppWithReducers() {
         }
     ])
 
-    let [tasks, dispatchToTasksReducer] = useReducer<Reducer<TasksStateType, TasksReducerActionsType>>(tasksReducer, {
+    let [tasks, dispatchToTasksReducer] = useReducer<Reducer<TasksStateType, TasksReducerActionsType>>(tasksToolkitReducer, {
         [todolistId1]: [
             {
                 description: '',

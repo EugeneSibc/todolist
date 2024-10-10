@@ -3,9 +3,9 @@ import { AddItemForm } from "./../addItemForm/AddItemForm"
 import { EditableSpan } from "../editableSpan/EditableSpan"
 import IconButton from "@mui/material/IconButton/IconButton"
 import { Delete } from "@mui/icons-material"
-import { Button, Checkbox } from "@mui/material"
-import { TaskData } from "../../api/tasks-api"
-import { FilterValuesType } from "../../state/todolists-reducer"
+import { Button } from "@mui/material"
+import { TaskData } from "api/tasks-api"
+import { FilterValuesType } from "state/todolistsSlice"
 
 type PropsType = {
   id: string
@@ -84,7 +84,11 @@ export function Todolist(props: PropsType) {
         })}
       </div>
       <div>
-        <Button variant={props.filter === "all" ? "outlined" : "text"} onClick={onAllClickHandler} color={"inherit"}>
+        <Button
+          variant={props.filter === "all" ? "outlined" : "text"}
+          onClick={onAllClickHandler}
+          color={"inherit"}
+        >
           All
         </Button>
         <Button

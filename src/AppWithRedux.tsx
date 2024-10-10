@@ -10,11 +10,11 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
-import { RequestStatusType } from "state/app-reducer"
+import { RequestStatusType } from "state/appSlice"
 import Box from "@mui/material/Box"
 import ErrorSnackbar from "./components/errorSnackbar/ErrorSnackbar"
 import { Outlet } from "react-router-dom"
-import { logoutTC, meTC } from "state/auth-reducer"
+import { logoutTC, meTC } from "state/authSlice"
 import CircularProgress from "@mui/material/CircularProgress"
 
 export function AppWithRedux() {

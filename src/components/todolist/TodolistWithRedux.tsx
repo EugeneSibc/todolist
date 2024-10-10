@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback } from "react"
 import { AddItemForm } from "./../addItemForm/AddItemForm"
 import { EditableSpan } from "../editableSpan/EditableSpan"
 import IconButton from "@mui/material/IconButton/IconButton"
 import { Delete } from "@mui/icons-material"
-import { Button, Checkbox } from "@mui/material"
-import { FilterValuesType } from "../../state/todolists-reducer"
+import { Button } from "@mui/material"
+import { FilterValuesType } from "state/todolistsSlice"
 import { Task } from "../Task"
-import { TaskStatuses } from "../../api/tasks-api"
-import { useAppDispatch } from "../../state/store"
-import { TaskNewData, fetchTasksTC } from "../../state/tasks-reducer"
-import { useDispatch } from "react-redux"
-import { RequestStatusType } from "../../state/app-reducer"
+import { TaskStatuses } from "api/tasks-api"
+import { useAppDispatch } from "state/store"
+import { TaskNewData } from "state/tasksSlice"
+import { RequestStatusType } from "state/appSlice"
 
 type PropsType = {
   id: string
@@ -53,8 +52,14 @@ export const TodolistWithRedux = (props: PropsType) => {
     [props.changeTodolistTitle, props.id],
   )
 
-  const onAllClickHandler = useCallback(() => props.changeFilter(props.id, "all"), [props.changeFilter, props.id])
-  const onActiveClickHandler = useCallback(() => props.changeFilter(props.id, "active"), [props.changeFilter, props.id])
+  const onAllClickHandler = useCallback(
+    () => props.changeFilter(props.id, "all"),
+    [props.changeFilter, props.id],
+  )
+  const onActiveClickHandler = useCallback(
+    () => props.changeFilter(props.id, "active"),
+    [props.changeFilter, props.id],
+  )
   const onCompletedClickHandler = useCallback(
     () => props.changeFilter(props.id, "completed"),
     [props.changeFilter, props.id],
@@ -74,14 +79,18 @@ export const TodolistWithRedux = (props: PropsType) => {
     <div>
       <h3>
         {" "}
-        <EditableSpan value={props.title} callBack={changeTodolistTitle} disabled={props.entityStatus === "loading"} />
+        <EditableSpan
+          value={props.title}
+          callBack={changeTodolistTitle}
+          disabled={props.entityStatus === "loading"}
+        />
         <IconButton onClick={removeTodolist} disabled={props.entityStatus === "loading"}>
           <Delete />
         </IconButton>
       </h3>
       <AddItemForm callBack={addTask} disabled={props.entityStatus === "loading"} />
       <div>
-        {tasksForTodolist.map((t) => (
+        {tasksForTodolist?.map((t) => (
           <Task
             key={t.id}
             removeTask={props.removeTask}
@@ -94,7 +103,11 @@ export const TodolistWithRedux = (props: PropsType) => {
         ))}
       </div>
       <div>
-        <Button variant={props.filter === "all" ? "outlined" : "text"} onClick={onAllClickHandler} color={"inherit"}>
+        <Button
+          variant={props.filter === "all" ? "outlined" : "text"}
+          onClick={onAllClickHandler}
+          color={"inherit"}
+        >
           All
         </Button>
         <Button

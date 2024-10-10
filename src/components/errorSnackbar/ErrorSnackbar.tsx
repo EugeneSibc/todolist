@@ -3,8 +3,8 @@ import Button from "@mui/material/Button"
 import Snackbar from "@mui/material/Snackbar"
 import Alert from "@mui/material/Alert"
 import { useSelector } from "react-redux"
-import { AppRootStateType, useAppDispatch } from "../../state/store"
-import { setAppErrorAC } from "../../state/app-reducer"
+import { AppRootStateType, useAppDispatch } from "state/store"
+import { appActions } from "state/appSlice"
 
 // const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
 //   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -18,7 +18,7 @@ export default function CustomizedSnackbars() {
     if (reason === "clickaway") {
       return
     }
-    dispatch(setAppErrorAC(null))
+    dispatch(appActions.setError(null))
   }
 
   return (

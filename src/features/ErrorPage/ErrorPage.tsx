@@ -11,7 +11,7 @@ import Box from "@mui/material/Box"
 import ErrorSnackbar from "../../components/errorSnackbar/ErrorSnackbar"
 import { useSelector } from "react-redux"
 import { AppRootStateType } from "../../state/store"
-import { RequestStatusType } from "../../state/app-reducer"
+import { RequestStatusType } from "state/appSlice"
 
 export function ErrorPage() {
   const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
