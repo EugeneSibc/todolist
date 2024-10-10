@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react"
 import { IconButton, TextField } from "@mui/material"
 import { AddBox } from "@mui/icons-material"
-import { RequestStatusType } from "../../state/app-reducer"
+import { RequestStatusType } from "state/appSlice"
 
 type AddItemFormPropsType = {
   callBack: (title: string) => void

@@ -1,6 +1,6 @@
-import { TaskPriorities, TaskStatuses, UpdateTaskModelType } from "../api/tasks-api"
-import { addTaskAC, changeTaskAC, removeTaskAC, tasksReducer, TasksStateType } from "./tasks-reducer"
-import { addTodolistAC, removeTodolistAC } from "./todolists-reducer"
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType } from "api/tasks-api"
+import { tasksAction, tasksReducer, TasksStateType } from "state/tasksSlice"
+import { addTodolist, removeTodolist } from "state/todolistsSlice"
 
 let startState: TasksStateType
 const date = new Date()
@@ -98,7 +98,7 @@ beforeEach(() => {
 })
 
 test("correct task should be deleted from correct array", () => {
-  const action = removeTaskAC("2", "todolistId2")
+  const action = tasksAction.removeTask({ id: "2", todolistId: "todolistId2" })
 
   const endState = tasksReducer(startState, action)
 
@@ -195,7 +195,7 @@ test("correct task should be added to correct array", () => {
     addedDate: new Date(),
     entityTaskStatus: "idle",
   }
-  const action = addTaskAC(task, "todolistId2")
+  const action = tasksAction.addTask({ task, todolistId: "todolistId2" })
 
   const endState = tasksReducer(startState, action)
 
@@ -216,7 +216,7 @@ test("status of specified task should be changed", () => {
     startDate: "string",
     deadline: "string",
   }
-  const action = changeTaskAC("todolistId2", "2", model)
+  const action = tasksAction.updateTask({ todolistId: "todolistId2", taskId: "2", model })
 
   const endState = tasksReducer(startState, action)
 
@@ -234,7 +234,7 @@ test("title of specified task should be changed", () => {
     startDate: "string",
     deadline: "string",
   }
-  const action = changeTaskAC("todolistId2", "3", model)
+  const action = tasksAction.updateTask({ todolistId: "todolistId2", taskId: "3", model })
 
   const endstate = tasksReducer(startState, action)
 
@@ -249,12 +249,12 @@ test("new array should be added when new todolist is added", () => {
     order: 1,
     title: "new todolist",
   }
-  const action = addTodolistAC(todolist)
+  const action = addTodolist({ todolist })
 
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
-  const newKey = keys.find((k) => k != "todolistId1" && k != "todolistId2")
+  const newKey = keys.find((k) => k !== "todolistId1" && k !== "todolistId2")
   if (!newKey) {
     throw Error("new key should be added")
   }
@@ -264,7 +264,7 @@ test("new array should be added when new todolist is added", () => {
 })
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistAC("todolistId2")
+  const action = removeTodolist({ id: "todolistId2" })
 
   const endState = tasksReducer(startState, action)
 

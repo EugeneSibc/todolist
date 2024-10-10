@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect } from "react"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
-import { AddItemForm } from "../../components/addItemForm/AddItemForm"
-import { TodolistWithRedux } from "../../components/todolist/TodolistWithRedux"
+import { AddItemForm } from "components/addItemForm/AddItemForm"
+import { TodolistWithRedux } from "components/todolist/TodolistWithRedux"
 import { useSelector } from "react-redux"
 import {
   addTodolistTC,
-  changeFilterAC,
+  changeTodolistFilter,
   changeTodolistTitleTC,
   fetchTodolistsTC,
   FilterValuesType,
   removeTodolistTC,
   TodolistDomainType,
-} from "../../state/todolists-reducer"
-import { AppRootStateType, useAppDispatch } from "../../state/store"
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "../../state/tasks-reducer"
-import { TaskStatuses } from "../../api/tasks-api"
+} from "state/todolistsSlice"
+import { AppRootStateType, useAppDispatch } from "state/store"
+import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "state/tasksSlice"
+import { TaskStatuses } from "api/tasks-api"
 import { Navigate } from "react-router-dom"
 
 export const TodolistsList = () => {
@@ -47,8 +47,8 @@ export const TodolistsList = () => {
     dispatch(updateTaskTC(todolistId, id, { title }))
   }, [])
 
-  const changeFilter = useCallback((todolistId: string, value: FilterValuesType) => {
-    dispatch(changeFilterAC(todolistId, value))
+  const changeFilter = useCallback((todolistId: string, filter: FilterValuesType) => {
+    dispatch(changeTodolistFilter({ id: todolistId, filter }))
   }, [])
 
   const removeTodolist = useCallback((id: string) => {
@@ -61,8 +61,7 @@ export const TodolistsList = () => {
   }, [])
 
   const addTodolist = useCallback((title: string) => {
-    const action = addTodolistTC(title)
-    dispatch(action)
+    dispatch(addTodolistTC(title))
   }, [])
 
   if (!isLoggedIn) {
