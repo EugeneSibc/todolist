@@ -48,7 +48,7 @@ const slice = createSlice({
       })
     },
     unloadTodolists: (state) => {
-      return state
+      return []
     },
   },
 })

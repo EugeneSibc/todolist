@@ -9,7 +9,7 @@ import { Dispatch } from "redux"
 import { AppRootStateType } from "./store"
 import { appActions, RequestStatusType } from "state/appSlice"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
-import { addTodolist, removeTodolist, setTodolists } from "state/todolistsSlice"
+import { addTodolist, removeTodolist, setTodolists, unloadTodolists } from "state/todolistsSlice"
 import { TodolistData } from "api/todolists-api"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
@@ -68,6 +68,9 @@ const slice = createSlice({
       })
       .addCase(setTodolists, (state, action) => {
         action.payload.todolists.forEach((ts: TodolistData) => (state[ts.id] = []))
+      })
+      .addCase(unloadTodolists, (state) => {
+        return {}
       })
   },
 })
