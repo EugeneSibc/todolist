@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import "./App.css"
 import { useSelector } from "react-redux"
-import { AppRootStateType, useAppDispatch } from "./state/store"
+import { AppRootStateType, useAppDispatch, useAppSelector } from "./state/store"
 import LinearProgress from "@mui/material/LinearProgress"
 import AppBar from "@mui/material/AppBar/AppBar"
 import Menu from "@mui/icons-material/Menu"
@@ -10,17 +10,17 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
-import { RequestStatusType } from "state/appSlice"
 import Box from "@mui/material/Box"
 import ErrorSnackbar from "./components/errorSnackbar/ErrorSnackbar"
 import { Outlet } from "react-router-dom"
 import { logoutTC, meTC } from "state/authSlice"
 import CircularProgress from "@mui/material/CircularProgress"
+import { selectAppIsInitialized, selectAppIsLoggedIn, selectStatusApp } from "state/app.selectors"
 
 export function AppWithRedux() {
-  const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
-  const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
+  const status = useAppSelector(selectStatusApp)
+  const isLoggedIn = useAppSelector(selectAppIsLoggedIn)
+  const isInitialized = useAppSelector(selectAppIsInitialized)
 
   const dispatch = useAppDispatch()
 

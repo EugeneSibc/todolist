@@ -13,15 +13,16 @@ import {
   removeTodolistTC,
   TodolistDomainType,
 } from "state/todolistsSlice"
-import { AppRootStateType, useAppDispatch } from "state/store"
+import { AppRootStateType, useAppDispatch, useAppSelector } from "state/store"
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "state/tasksSlice"
 import { TaskStatuses } from "api/tasks-api"
 import { Navigate } from "react-router-dom"
+import { selectAppIsLoggedIn, selectTasks, selectTodolists } from "state/app.selectors"
 
 export const TodolistsList = () => {
-  const todolists = useSelector<AppRootStateType, TodolistDomainType[]>((state) => state.todolists)
-  const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks)
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+  const todolists = useAppSelector(selectTodolists)
+  const tasks = useAppSelector(selectTasks)
+  const isLoggedIn = useAppSelector(selectAppIsLoggedIn)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

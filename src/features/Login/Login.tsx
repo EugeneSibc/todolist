@@ -10,8 +10,9 @@ import Button from "@mui/material/Button"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { loginTC } from "state/authSlice"
-import { AppRootStateType } from "../../state/store"
+import { AppRootStateType, useAppSelector } from "../../state/store"
 import { Navigate } from "react-router-dom"
+import { selectAppIsLoggedIn } from "state/app.selectors"
 
 export type LoginData = {
   email: string
@@ -20,7 +21,7 @@ export type LoginData = {
   captcha?: string
 }
 export const Login = () => {
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector(selectAppIsLoggedIn)
   const dispatch = useDispatch()
 
   type FormikErrorType = {

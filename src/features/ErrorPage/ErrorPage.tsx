@@ -10,11 +10,12 @@ import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
 import ErrorSnackbar from "../../components/errorSnackbar/ErrorSnackbar"
 import { useSelector } from "react-redux"
-import { AppRootStateType } from "../../state/store"
+import { AppRootStateType, useAppSelector } from "../../state/store"
 import { RequestStatusType } from "state/appSlice"
+import { selectStatusApp } from "state/app.selectors"
 
 export function ErrorPage() {
-  const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
+  const status = useAppSelector(selectStatusApp)
 
   return (
     <div className="App">
