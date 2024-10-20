@@ -1,6 +1,17 @@
-import { TaskPriorities, TaskStatuses, UpdateTaskModelType } from "api/tasks-api"
-import { tasksAction, tasksReducer, TasksStateType } from "state/tasksSlice"
+import {
+  TaskData,
+  TaskPriorities,
+  TaskStatuses,
+  UpdateTaskModelType,
+} from "api/tasks-api"
+import {
+  tasksAction,
+  tasksReducer,
+  TasksStateType,
+  tasksThunks,
+} from "state/tasksSlice"
 import { addTodolist, removeTodolist } from "state/todolistsSlice"
+import { ExtraAction } from "common/types/types"
 
 let startState: TasksStateType
 const date = new Date()
@@ -55,7 +66,7 @@ beforeEach(() => {
         description: "",
         title: "milk",
         completed: false,
-        status: TaskStatuses.InProgress,
+        status: TaskStatuses.Completed,
         priority: TaskPriorities.Low,
         startDate: "",
         deadline: "",
@@ -98,7 +109,10 @@ beforeEach(() => {
 })
 
 test("correct task should be deleted from correct array", () => {
-  const action = tasksAction.removeTask({ id: "2", todolistId: "todolistId2" })
+  const action: ExtraAction<typeof tasksThunks.removeTaskTC.fulfilled> = {
+    type: tasksThunks.removeTaskTC.fulfilled.type,
+    payload: { taskId: "2", todolistId: "todolistId2" },
+  }
 
   const endState = tasksReducer(startState, action)
 
@@ -152,7 +166,7 @@ test("correct task should be deleted from correct array", () => {
         description: "",
         title: "milk",
         completed: false,
-        status: TaskStatuses.InProgress,
+        status: TaskStatuses.Completed,
         priority: TaskPriorities.Low,
         startDate: "",
         deadline: "",
@@ -195,20 +209,25 @@ test("correct task should be added to correct array", () => {
     addedDate: new Date(),
     entityTaskStatus: "idle",
   }
-  const action = tasksAction.addTask({ task, todolistId: "todolistId2" })
+
+  const action: ExtraAction<typeof tasksThunks.addTaskTC.fulfilled> = {
+    type: tasksThunks.addTaskTC.fulfilled.type,
+    payload: { task },
+  }
 
   const endState = tasksReducer(startState, action)
 
   expect(endState["todolistId1"].length).toBe(3)
   expect(endState["todolistId2"].length).toBe(4)
-  expect(endState["todolistId2"][3].id).toBeDefined()
-  expect(endState["todolistId2"][3].title).toBe("juce")
-  expect(endState["todolistId2"][3].completed).toBe(false)
+  expect(endState["todolistId2"][0].id).toBeDefined()
+  expect(endState["todolistId2"][0].title).toBe("juce")
+  expect(endState["todolistId2"][3].title).toBe("tea")
+  expect(endState["todolistId2"][0].completed).toBe(false)
 })
 
 test("status of specified task should be changed", () => {
   const model: UpdateTaskModelType = {
-    title: "string",
+    title: startState["todolistId2"][1].title,
     description: "string",
     completed: false,
     status: TaskStatuses.InProgress,
@@ -216,12 +235,21 @@ test("status of specified task should be changed", () => {
     startDate: "string",
     deadline: "string",
   }
-  const action = tasksAction.updateTask({ todolistId: "todolistId2", taskId: "2", model })
+  const action: ExtraAction<typeof tasksThunks.updateTaskTC.fulfilled> = {
+    type: tasksThunks.updateTaskTC.fulfilled.type,
+    payload: {
+      taskId: "2",
+      todolistId: "todolistId2",
+      apiModel: model,
+    },
+  }
 
   const endState = tasksReducer(startState, action)
 
-  expect(endState["todolistId2"][0].status).toBe(TaskStatuses.InProgress)
+  expect(endState["todolistId2"].length).toBe(3)
+  expect(endState["todolistId2"][0].status).toBe(TaskStatuses.Completed)
   expect(endState["todolistId2"][1].status).toBe(TaskStatuses.InProgress)
+  expect(endState["todolistId2"][1].title).toBe("bread")
 })
 
 test("title of specified task should be changed", () => {
@@ -234,7 +262,14 @@ test("title of specified task should be changed", () => {
     startDate: "string",
     deadline: "string",
   }
-  const action = tasksAction.updateTask({ todolistId: "todolistId2", taskId: "3", model })
+  const action: ExtraAction<typeof tasksThunks.updateTaskTC.fulfilled> = {
+    type: tasksThunks.updateTaskTC.fulfilled.type,
+    payload: {
+      taskId: "3",
+      todolistId: "todolistId2",
+      apiModel: model,
+    },
+  }
 
   const endstate = tasksReducer(startState, action)
 
@@ -272,4 +307,36 @@ test("property with todolistId should be deleted", () => {
 
   expect(keys.length).toBe(1)
   expect(endState["todolistId2"]).not.toBeDefined()
+})
+
+test("tasks should be added for todolist", () => {
+  //var1
+  /*const action = tasksThunks.fetchTasksTC.fulfilled(
+    {
+      tasks: startState["todolistId1"],
+      todolistId: "todolistId1",
+    },
+    "",
+    {} as any,
+  )*/
+
+  //var2
+  const action: ExtraAction<typeof tasksThunks.fetchTasksTC.fulfilled> = {
+    type: tasksThunks.fetchTasksTC.fulfilled.type,
+    payload: {
+      tasks: startState["todolistId1"],
+      todolistId: "todolistId1",
+    },
+  }
+
+  const endState = tasksReducer(
+    {
+      todolistId2: [],
+      todolistId1: [],
+    },
+    action,
+  )
+
+  expect(endState["todolistId1"].length).toBe(3)
+  expect(endState["todolistId2"].length).toBe(0)
 })
