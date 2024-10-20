@@ -3,7 +3,6 @@ import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import { AddItemForm } from "components/addItemForm/AddItemForm"
 import { TodolistWithRedux } from "components/todolist/TodolistWithRedux"
-import { useSelector } from "react-redux"
 import {
   addTodolistTC,
   changeTodolistFilter,
@@ -11,13 +10,16 @@ import {
   fetchTodolistsTC,
   FilterValuesType,
   removeTodolistTC,
-  TodolistDomainType,
 } from "state/todolistsSlice"
-import { AppRootStateType, useAppDispatch, useAppSelector } from "state/store"
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "state/tasksSlice"
+import { useAppDispatch, useAppSelector } from "state/store"
+import { tasksThunks } from "state/tasksSlice"
 import { TaskStatuses } from "api/tasks-api"
 import { Navigate } from "react-router-dom"
-import { selectAppIsLoggedIn, selectTasks, selectTodolists } from "state/app.selectors"
+import {
+  selectAppIsLoggedIn,
+  selectTasks,
+  selectTodolists,
+} from "state/app.selectors"
 
 export const TodolistsList = () => {
   const todolists = useAppSelector(selectTodolists)
@@ -33,24 +35,45 @@ export const TodolistsList = () => {
   }, [])
 
   const addTask = useCallback((title: string, todolistId: string) => {
-    dispatch(addTaskTC(title, todolistId))
+    dispatch(tasksThunks.addTaskTC({ title, todolistId }))
   }, [])
 
   const removeTask = useCallback((id: string, todolistId: string) => {
-    dispatch(removeTaskTC(id, todolistId))
+    dispatch(tasksThunks.removeTaskTC({ taskId: id, todolistId }))
   }, [])
 
-  const changeStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
-    dispatch(updateTaskTC(todolistId, taskId, { status }))
-  }, [])
+  const changeStatus = useCallback(
+    (todolistId: string, taskId: string, status: TaskStatuses) => {
+      dispatch(
+        tasksThunks.updateTaskTC({
+          todolistId,
+          taskId,
+          domainModel: { status },
+        }),
+      )
+    },
+    [],
+  )
 
-  const changeTaskTitle = useCallback((todolistId: string, id: string, title: string) => {
-    dispatch(updateTaskTC(todolistId, id, { title }))
-  }, [])
+  const changeTaskTitle = useCallback(
+    (todolistId: string, id: string, title: string) => {
+      dispatch(
+        tasksThunks.updateTaskTC({
+          todolistId,
+          taskId: id,
+          domainModel: { title },
+        }),
+      )
+    },
+    [],
+  )
 
-  const changeFilter = useCallback((todolistId: string, filter: FilterValuesType) => {
-    dispatch(changeTodolistFilter({ id: todolistId, filter }))
-  }, [])
+  const changeFilter = useCallback(
+    (todolistId: string, filter: FilterValuesType) => {
+      dispatch(changeTodolistFilter({ id: todolistId, filter }))
+    },
+    [],
+  )
 
   const removeTodolist = useCallback((id: string) => {
     const action = removeTodolistTC(id)

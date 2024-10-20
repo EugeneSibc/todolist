@@ -1,4 +1,5 @@
 import axios from "axios"
+import { UpdateTaskArgs } from "state/tasksSlice"
 
 export enum TaskStatuses {
   New = 0,
@@ -59,13 +60,24 @@ export const tasksAPI = {
   getTask(todolistId: string) {
     return instanse.get<GetTask>(`${todolistId}/tasks`)
   },
-  createTask(todolistId: string, title: string) {
-    return instanse.post<ResponseType<{ item: TaskData }>>(`${todolistId}/tasks`, { title })
+  createTask(arg: CreateTaskArg) {
+    const { title, todolistId } = arg
+    return instanse.post<ResponseType<{ item: TaskData }>>(
+      `${todolistId}/tasks`,
+      { title },
+    )
   },
-  updateTask(todolistId: string, taskId: string, task: UpdateTaskModelType) {
-    return instanse.put<ResponseType<{ item: TaskData }>>(`${todolistId}/tasks/${taskId}`, task)
+  updateTask(arg: UpdateTaskArgs) {
+    return instanse.put<ResponseType<{ item: TaskData }>>(
+      `${arg.todolistId}/tasks/${arg.taskId}`,
+      arg.domainModel,
+    )
   },
-  deleteTask(todolistId: string, taskId: string) {
-    return instanse.delete<ResponseType>(`${todolistId}/tasks/${taskId}`)
+  deleteTask(arg: { todolistId: string; taskId: string }) {
+    return instanse.delete<ResponseType>(
+      `${arg.todolistId}/tasks/${arg.taskId}`,
+    )
   },
 }
+
+type CreateTaskArg = { title: string; todolistId: string }
