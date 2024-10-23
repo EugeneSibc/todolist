@@ -4,12 +4,10 @@ import Paper from "@mui/material/Paper"
 import { AddItemForm } from "components/addItemForm/AddItemForm"
 import { TodolistWithRedux } from "components/todolist/TodolistWithRedux"
 import {
-  addTodolistTC,
   changeTodolistFilter,
   changeTodolistTitleTC,
-  fetchTodolistsTC,
   FilterValuesType,
-  removeTodolistTC,
+  todolistsThunks,
 } from "state/todolistsSlice"
 import { useAppDispatch, useAppSelector } from "state/store"
 import { tasksThunks } from "state/tasksSlice"
@@ -29,8 +27,7 @@ export const TodolistsList = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("todolist loading")
-      dispatch(fetchTodolistsTC())
+      dispatch(todolistsThunks.fetchTodolistsTC())
     }
   }, [])
 
@@ -48,7 +45,7 @@ export const TodolistsList = () => {
         tasksThunks.updateTaskTC({
           todolistId,
           taskId,
-          domainModel: { status },
+          domainModel: {status} ,
         }),
       )
     },
@@ -76,7 +73,7 @@ export const TodolistsList = () => {
   )
 
   const removeTodolist = useCallback((id: string) => {
-    const action = removeTodolistTC(id)
+    const action = todolistsThunks.removeTodolistTC({id})
     dispatch(action)
   }, [])
 
@@ -85,7 +82,7 @@ export const TodolistsList = () => {
   }, [])
 
   const addTodolist = useCallback((title: string) => {
-    dispatch(addTodolistTC(title))
+    dispatch(todolistsThunks.addTodolistTC({title}))
   }, [])
 
   if (!isLoggedIn) {

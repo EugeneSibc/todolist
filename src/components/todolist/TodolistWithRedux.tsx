@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import { AddItemForm } from "./../addItemForm/AddItemForm"
 import { EditableSpan } from "../editableSpan/EditableSpan"
 import IconButton from "@mui/material/IconButton/IconButton"
@@ -8,7 +8,7 @@ import { FilterValuesType } from "state/todolistsSlice"
 import { Task } from "../Task"
 import { TaskStatuses } from "api/tasks-api"
 import { useAppDispatch } from "state/store"
-import { TaskNewData } from "state/tasksSlice"
+import { TaskNewData, tasksThunks } from "state/tasksSlice"
 import { RequestStatusType } from "state/appSlice"
 
 type PropsType = {
@@ -19,7 +19,11 @@ type PropsType = {
   filter: FilterValuesType
   addTask: (title: string, todolistId: string) => void
   removeTask: (id: string, todolistId: string) => void
-  changeStatus: (todolistId: string, taskId: string, status: TaskStatuses) => void
+  changeStatus: (
+    todolistId: string,
+    taskId: string,
+    status: TaskStatuses,
+  ) => void
   changeTaskTitle: (todolistId: string, id: string, newTitle: string) => void
   changeFilter: (todolistId: string, value: FilterValuesType) => void
   removeTodolist: (id: string) => void
@@ -27,13 +31,11 @@ type PropsType = {
 }
 
 export const TodolistWithRedux = (props: PropsType) => {
-  // let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //     console.log('7')
-  //     dispatch(fetchTasksTC(props.id))
-  //   }, [])
+  useEffect(() => {
+    dispatch(tasksThunks.fetchTasksTC(props.id))
+  }, [])
 
   const addTask = useCallback(
     (title: string) => {
@@ -68,11 +70,14 @@ export const TodolistWithRedux = (props: PropsType) => {
   let tasksForTodolist = props.tasks
   if (props.filter === "active") {
     tasksForTodolist = props.tasks.filter(
-      (t) => t.status === TaskStatuses.InProgress || t.status === TaskStatuses.New,
+      (t) =>
+        t.status === TaskStatuses.InProgress || t.status === TaskStatuses.New,
     )
   }
   if (props.filter === "completed") {
-    tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.Completed)
+    tasksForTodolist = props.tasks.filter(
+      (t) => t.status === TaskStatuses.Completed,
+    )
   }
 
   return (
@@ -84,11 +89,17 @@ export const TodolistWithRedux = (props: PropsType) => {
           callBack={changeTodolistTitle}
           disabled={props.entityStatus === "loading"}
         />
-        <IconButton onClick={removeTodolist} disabled={props.entityStatus === "loading"}>
+        <IconButton
+          onClick={removeTodolist}
+          disabled={props.entityStatus === "loading"}
+        >
           <Delete />
         </IconButton>
       </h3>
-      <AddItemForm callBack={addTask} disabled={props.entityStatus === "loading"} />
+      <AddItemForm
+        callBack={addTask}
+        disabled={props.entityStatus === "loading"}
+      />
       <div>
         {tasksForTodolist?.map((t) => (
           <Task

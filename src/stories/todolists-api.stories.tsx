@@ -27,7 +27,7 @@ export const CreateTodolist = () => {
   }
   const onClickHandler = () => {
     console.log(state)
-    todolistsAPI.createTodolist(value).then((res) => {
+    todolistsAPI.createTodolist({title:value}).then((res) => {
       setState(res.data)
     })
     setValue("")
@@ -51,7 +51,7 @@ export const DeleteTodolist = () => {
     setTodolistId(e.currentTarget.value)
   }
   const onClickHandler = () => {
-    todolistsAPI.deleteTodolist(todolistId).then((res) => {
+    todolistsAPI.deleteTodolist({id:todolistId}).then((res) => {
       setState(res.data)
     })
     setTodolistId("")
