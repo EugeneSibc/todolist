@@ -1,14 +1,14 @@
-import {
-  addTodolist,
+import {  
   changeTodolistFilter,
   changeTodolistTitle,
   FilterValuesType,
-  removeTodolist,
   TodolistDomainType,
   todolistsReducer,
+  todolistsThunks,
 } from "state/todolistsSlice"
 import { v1 } from "uuid"
 import { tasksReducer, TasksStateType } from "state/tasksSlice"
+import { ExtraAction } from "common/types/types"
 
 let todolistId1: string
 let todolistId2: string
@@ -38,7 +38,14 @@ beforeEach(() => {
 })
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(startState, removeTodolist({ id: todolistId1 }))
+  const action: ExtraAction<typeof todolistsThunks.removeTodolistTC.fulfilled> = {
+    type: todolistsThunks.removeTodolistTC.fulfilled.type,
+    payload: {
+     id:todolistId1
+    }
+  }
+
+  const endState = todolistsReducer(startState, action)
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId2)
@@ -52,10 +59,17 @@ test("correct todolist should be added", () => {
     order: 0,
   }
 
-  const endState = todolistsReducer(startState, addTodolist({ todolist: newTodolistTitle }))
+  const action: ExtraAction<typeof todolistsThunks.addTodolistTC.fulfilled> = {
+    type: todolistsThunks.addTodolistTC.fulfilled.type,
+    payload: {
+     todolist: newTodolistTitle
+    }
+  }
 
+  const endState = todolistsReducer(startState, action)
+  
   expect(endState.length).toBe(3)
-  expect(endState[1].title).toBe("What to learn")
+  expect(endState[0].title).toBe("new todolist")
 })
 
 test("correct todolist should change its name", () => {
@@ -100,7 +114,12 @@ test("ids should be equals", () => {
     entityStatus: "idle",
   }
 
-  const action = addTodolist({ todolist })
+  const action: ExtraAction<typeof todolistsThunks.addTodolistTC.fulfilled> = {
+    type: todolistsThunks.addTodolistTC.fulfilled.type,
+    payload: {
+     todolist: todolist
+    }
+  }
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -112,3 +131,7 @@ test("ids should be equals", () => {
   expect(idFromTasks).toBe(action.payload.todolist.id)
   expect(idFromTodolists).toBe(action.payload.todolist.id)
 })
+function removeTodolist(arg0: { id: string }): import("redux").UnknownAction {
+  throw new Error("Function not implemented.")
+}
+
