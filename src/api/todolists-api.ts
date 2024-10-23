@@ -29,13 +29,17 @@ const instanse = axios.create({
 
 export const authAPI = {
   me() {
-    return instanse.get<ResponseType<AuthType>, AxiosResponse<ResponseType<AuthType>>>(`auth/me`)
+    return instanse.get<
+      ResponseType<AuthType>,
+      AxiosResponse<ResponseType<AuthType>>
+    >(`auth/me`)
   },
   login(data: LoginData) {
-    return instanse.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{ userId: number }>>, LoginData>(
-      `auth/login`,
-      data,
-    )
+    return instanse.post<
+      ResponseType<{ userId: number }>,
+      AxiosResponse<ResponseType<{ userId: number }>>,
+      LoginData
+    >(`auth/login`, data)
   },
   logout() {
     return instanse.delete<ResponseType>(`auth/login`)
@@ -46,13 +50,19 @@ export const todolistsAPI = {
   getTodolists() {
     return instanse.get<TodolistData[]>(`/todo-lists`)
   },
-  createTodolist(title: string) {
-    return instanse.post<ResponseType<{ item: TodolistData }>>(`/todo-lists`, { title })
+  createTodolist( arg: {title:string} ) { 
+    const {title} = arg   
+    return instanse.post<ResponseType<{ item: TodolistData }>>(
+      `/todo-lists`,
+      {title},
+    )
   },
-  deleteTodolist(todolistId: string) {
-    return instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
+  deleteTodolist(arg:{id: string}) {
+    return instanse.delete<ResponseType>(`todo-lists/${arg.id}`)
   },
   updateTodolist(todolistId: string, title: string) {
-    return instanse.put<ResponseType>(`/todo-lists/${todolistId}`, { title: title })
+    return instanse.put<ResponseType>(`/todo-lists/${todolistId}`, {
+      title: title,
+    })
   },
 }
