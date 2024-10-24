@@ -67,10 +67,10 @@ export const tasksAPI = {
       { title },
     )
   },
-  updateTask(taskId:string, todolistId:string, apiModel:UpdateTaskModelType) {    
+  updateTask(arg: UpdateTaskArgs) {
     return instanse.put<ResponseType<{ item: TaskData }>>(
-      `${todolistId}/tasks/${taskId}`,
-      apiModel,
+      `${arg.todolistId}/tasks/${arg.taskId}`,
+      arg.domainModel,
     )
   },
   deleteTask(arg: { todolistId: string; taskId: string }) {

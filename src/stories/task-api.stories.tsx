@@ -1,10 +1,6 @@
-import React, { ChangeEvent, useState } from "react"
-import {
-  TaskPriorities,
-  tasksAPI,
-  TaskStatuses,
-  UpdateTaskModelType,
-} from "../api/tasks-api"
+import React, { ChangeEvent, useEffect, useState } from "react"
+import axios from "axios"
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from "../api/tasks-api"
 
 export default {
   title: "API",
@@ -25,7 +21,7 @@ export const GetTasks = () => {
   return (
     <div>
       <div>
-        <input onChange={onChangeHandler}/>
+        <input onChange={onChangeHandler} />
         <button onClick={onClickHandler}>GET TASKS</button>
       </div>
       {JSON.stringify(state)}
@@ -35,7 +31,7 @@ export const GetTasks = () => {
 
 export const CreateTasks = () => {
   const [todolistId, setTodolistId] = useState<string>("")
-  const [title, setValue] = useState<string>("")
+  const [value, setValue] = useState<string>("")
   const [state, setState] = useState<any>(null)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +41,7 @@ export const CreateTasks = () => {
     setValue(e.currentTarget.value)
   }
   const onClickHandler = () => {
-    tasksAPI.createTask({ todolistId, title }).then((res) => {
+    tasksAPI.createTask(todolistId, value).then((res) => {
       setState(res.data)
     })
   }
@@ -131,7 +127,7 @@ export const DeleteTasks = () => {
     setTaskId(e.currentTarget.value)
   }
   const onClickHandler = () => {
-    tasksAPI.deleteTask({todolistId, taskId}).then((res) => {
+    tasksAPI.deleteTask(todolistId, taskId).then((res) => {
       setState(res.data)
     })
   }
