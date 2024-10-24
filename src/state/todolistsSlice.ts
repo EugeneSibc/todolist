@@ -58,6 +58,12 @@ const slice = createSlice({
   },
 })
 
+export const ResultCode = {
+  success: 0,
+  error: 1,
+  capcha: 10
+} as const 
+
 //create thunks
 const fetchTodolistsTC = createAppAsyncThunk<{ todolists: TodolistData[] }, undefined>(
   `${slice.name}/fetchTodolists`,
@@ -82,7 +88,7 @@ const addTodolistTC = createAppAsyncThunk<{ todolist: TodolistData }, { title: s
     try {
       dispatch(appActions.setStatus("loading"))
       const res = await todolistsAPI.createTodolist(arg)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         dispatch(appActions.setStatus("succeeded"))
         return { todolist: res.data.data.item }
       } else {
@@ -103,7 +109,7 @@ const removeTodolistTC = createAppAsyncThunk<{ id: string }, { id: string }>(
     try {
       dispatch(appActions.setStatus("loading"))
       const res = await todolistsAPI.deleteTodolist(arg)
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         dispatch(appActions.setStatus("succeeded"))
         return arg
       } else {

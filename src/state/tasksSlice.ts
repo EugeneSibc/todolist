@@ -11,6 +11,7 @@ import {
   handleServerNetworkError,
 } from "utils/error-utils"
 import {
+  ResultCode,
   todolistsThunks,
   unloadTodolists,
 } from "state/todolistsSlice"
@@ -117,7 +118,7 @@ const addTaskTC = createAppAsyncThunk<
   try {
     dispatch(appActions.setStatus("loading"))
     const res = await tasksAPI.createTask(arg)
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(appActions.setStatus("succeeded"))
       return { task: res.data.data.item }
     } else {
@@ -138,7 +139,7 @@ const removeTaskTC = createAppAsyncThunk<
   try {
     dispatch(appActions.setStatus("loading"))
     const res = await tasksAPI.deleteTask(arg)
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(appActions.setStatus("succeeded"))
       return { taskId: arg.taskId, todolistId: arg.todolistId }
     } else {
@@ -175,7 +176,7 @@ const updateTaskTC = createAppAsyncThunk<
     dispatch(appActions.setStatus("loading"))
     
     const res = await tasksAPI.updateTask(arg.taskId, arg.todolistId, apiModel)
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       dispatch(appActions.setStatus("succeeded"))
       return {
         taskId: arg.taskId,
