@@ -41,7 +41,7 @@ export const CreateTasks = () => {
     setValue(e.currentTarget.value)
   }
   const onClickHandler = () => {
-    tasksAPI.createTask(todolistId, value).then((res) => {
+    tasksAPI.createTask({todolistId, title:value}).then((res) => {
       setState(res.data)
     })
   }
@@ -127,7 +127,7 @@ export const DeleteTasks = () => {
     setTaskId(e.currentTarget.value)
   }
   const onClickHandler = () => {
-    tasksAPI.deleteTask(todolistId, taskId).then((res) => {
+    tasksAPI.deleteTask({todolistId, taskId}).then((res) => {
       setState(res.data)
     })
   }

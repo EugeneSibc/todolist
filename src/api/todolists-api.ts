@@ -60,9 +60,9 @@ export const todolistsAPI = {
   deleteTodolist(arg:{id: string}) {
     return instanse.delete<ResponseType>(`todo-lists/${arg.id}`)
   },
-  updateTodolist(todolistId: string, title: string) {
-    return instanse.put<ResponseType>(`/todo-lists/${todolistId}`, {
-      title: title,
-    })
+  updateTodolist(arg:{todolistId: string, title: string}) {
+    return instanse.put<ResponseType>(`/todo-lists/${arg.todolistId}`, 
+      arg.title,
+    )
   },
 }

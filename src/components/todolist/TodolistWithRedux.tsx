@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import { AddItemForm } from "./../addItemForm/AddItemForm"
 import { EditableSpan } from "../editableSpan/EditableSpan"
 import IconButton from "@mui/material/IconButton/IconButton"
@@ -8,7 +8,7 @@ import { FilterValuesType } from "state/todolistsSlice"
 import { Task } from "../Task"
 import { TaskStatuses } from "api/tasks-api"
 import { useAppDispatch } from "state/store"
-import { TaskNewData } from "state/tasksSlice"
+import { TaskNewData, tasksThunks} from "state/tasksSlice"
 import { RequestStatusType } from "state/appSlice"
 
 type PropsType = {
@@ -30,10 +30,9 @@ export const TodolistWithRedux = (props: PropsType) => {
   // let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //     console.log('7')
-  //     dispatch(fetchTasksTC(props.id))
-  //   }, [])
+  useEffect(() => {
+      dispatch(tasksThunks.fetchTasksTC(props.id))
+    }, [])
 
   const addTask = useCallback(
     (title: string) => {

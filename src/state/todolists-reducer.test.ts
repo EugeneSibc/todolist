@@ -1,6 +1,5 @@
 import {  
   changeTodolistFilter,
-  changeTodolistTitle,
   FilterValuesType,
   TodolistDomainType,
   todolistsReducer,
@@ -75,10 +74,12 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist"
 
-  const endState = todolistsReducer(
-    startState,
-    changeTodolistTitle({ id: todolistId2, title: newTodolistTitle }),
-  )
+  const action: ExtraAction<typeof todolistsThunks.changeTodolistTitleTC.fulfilled> = {
+    type: todolistsThunks.changeTodolistTitleTC.fulfilled.type,
+    payload: { todolistId: todolistId2, title: newTodolistTitle }
+  }
+
+  const endState = todolistsReducer(startState, action)
 
   expect(endState[0].title).toBe("What to learn")
   expect(endState[1].title).toBe(newTodolistTitle)
