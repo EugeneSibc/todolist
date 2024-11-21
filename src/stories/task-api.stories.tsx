@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react"
 import axios from "axios"
-import { TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from "../api/tasks-api"
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType, tasksAPI } from "../features/task/api/tasks-api"
 
 export default {
   title: "API",

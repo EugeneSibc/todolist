@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import "./App.css"
 import { useSelector } from "react-redux"
-import { AppRootStateType, useAppDispatch, useAppSelector } from "./state/store"
+import { AppRootStateType, useAppDispatch, useAppSelector } from "./app/store"
 import LinearProgress from "@mui/material/LinearProgress"
 import AppBar from "@mui/material/AppBar/AppBar"
 import Menu from "@mui/icons-material/Menu"
@@ -11,11 +11,11 @@ import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
-import ErrorSnackbar from "./components/errorSnackbar/ErrorSnackbar"
+import ErrorSnackbar from "./common/components/errorSnackbar/ErrorSnackbar"
 import { Outlet } from "react-router-dom"
-import { logoutTC, meTC } from "state/authSlice"
+import { logoutTC, meTC } from "features/auth/model/authSlice"
 import CircularProgress from "@mui/material/CircularProgress"
-import { selectAppIsInitialized, selectAppIsLoggedIn, selectStatusApp } from "state/app.selectors"
+import { selectAppIsInitialized, selectAppIsLoggedIn, selectStatusApp } from "app/app.selectors"
 
 export function AppWithRedux() {
   const status = useAppSelector(selectStatusApp)

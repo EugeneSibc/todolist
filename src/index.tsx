@@ -5,11 +5,11 @@ import * as serviceWorker from "./serviceWorker"
 import { createRoot } from "react-dom/client"
 import { AppWithRedux } from "./AppWithRedux"
 import { Provider } from "react-redux"
-import { store } from "./state/store"
+import { store } from "./app/store"
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
-import { TodolistsList } from "./features/Todolist/TodolistsList"
-import { Login } from "./features/Login/Login"
-import { ErrorPage } from "./features/ErrorPage/ErrorPage"
+import { TodolistsList } from "./features/todolists/ui/TodolistsList"
+import { Login } from "features/auth/ui/Login"
+import { ErrorPage } from "./common/components/errorPage/ErrorPage"
 
 const router = createBrowserRouter([
   {
