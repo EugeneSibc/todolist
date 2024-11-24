@@ -2,9 +2,9 @@ import React, { ChangeEvent, useCallback } from "react"
 import { EditableSpan } from "common/components/editableSpan/EditableSpan"
 import IconButton from "@mui/material/IconButton/IconButton"
 import { Delete } from "@mui/icons-material"
-import { TaskStatuses } from "features/task/api/tasks-api"
-import { RequestStatusType } from "app/appSlice"
 import { TaskNewData } from "features/task/model/tasksSlice"
+import { TaskStatuses } from "common/enums/enums"
+import { RequestStatusType } from "app/appSlice"
 
 type TaskProps = {
   removeTask: (id: string, todolistId: string) => void

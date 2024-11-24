@@ -5,11 +5,11 @@ import IconButton from "@mui/material/IconButton/IconButton"
 import { Delete } from "@mui/icons-material"
 import { Button } from "@mui/material"
 import { FilterValuesType } from "features/todolists/model/todolistsSlice"
-import { Task } from "common/components/Task"
-import { TaskStatuses } from "features/task/api/tasks-api"
-import { useAppDispatch } from "app/store"
-import { TaskNewData, tasksThunks } from "features/task/model/tasksSlice"
+import { Task } from "features/task/ui/Task"
 import { RequestStatusType } from "app/appSlice"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { TaskNewData, tasksThunks } from "features/task/model/tasksSlice"
+import { TaskStatuses } from "common/enums/enums"
 
 type PropsType = {
   id: string

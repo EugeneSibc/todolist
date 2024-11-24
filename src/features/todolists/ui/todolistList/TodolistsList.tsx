@@ -2,13 +2,14 @@ import React, { useCallback, useEffect } from "react"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import { AddItemForm } from "common/components/addItemForm/AddItemForm"
-import { TodolistWithRedux } from "common/components/todolist/TodolistWithRedux"
+import { TodolistWithRedux } from "features/todolists/ui/todolistList/todolist/TodolistWithRedux"
 import { changeTodolistFilter, FilterValuesType, todolistsThunks } from "features/todolists/model/todolistsSlice"
-import { useAppDispatch, useAppSelector } from "app/store"
-import { tasksThunks } from "features/task/model/tasksSlice"
-import { TaskStatuses } from "features/task/api/tasks-api"
 import { Navigate } from "react-router-dom"
 import { selectAppIsLoggedIn, selectTasks, selectTodolists } from "app/app.selectors"
+import { useAppSelector } from "common/hooks/useAppSelector"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { tasksThunks } from "features/task/model/tasksSlice"
+import { TaskStatuses } from "common/enums/enums"
 
 export const TodolistsList = () => {
   const todolists = useAppSelector(selectTodolists)
