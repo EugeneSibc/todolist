@@ -1,17 +1,14 @@
 import {
-  TaskData,
-  TaskPriorities,
-  TaskStatuses,
   UpdateTaskModelType,
 } from "features/task/api/tasks-api"
 import {
-  tasksAction,
   tasksReducer,
   TasksStateType,
   tasksThunks,
 } from "features/task/model/tasksSlice"
 import { ExtraAction } from "common/types/types"
 import { todolistsThunks } from "features/todolists/model/todolistsSlice"
+import { TaskPriorities, TaskStatuses } from "common/enums/enums"
 
 
 let startState: TasksStateType

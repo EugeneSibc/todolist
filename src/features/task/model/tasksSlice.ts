@@ -1,8 +1,6 @@
 import {
   TaskData,
-  TaskPriorities,
   tasksAPI,
-  TaskStatuses,
   UpdateTaskModelType,
 } from "features/task/api/tasks-api"
 import { appActions, RequestStatusType } from "app/appSlice"
@@ -17,6 +15,7 @@ import {
 } from "features/todolists/model/todolistsSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
+import { TaskPriorities, TaskStatuses } from "common/enums/enums"
 
 export type TaskNewData = TaskData & {
   entityTaskStatus: RequestStatusType
