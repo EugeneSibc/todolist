@@ -50,7 +50,7 @@ export const Login = () => {
     },
     onSubmit: (value) => {
 
-      dispatch(authThunks.loginTC(value))
+      dispatch(authThunks.loginTC({value}))
     },
   })
   if (isLoggedIn) {

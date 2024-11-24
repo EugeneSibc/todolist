@@ -1,7 +1,5 @@
 import React, { useEffect } from "react"
 import "./App.css"
-import { useSelector } from "react-redux"
-import { AppRootStateType, useAppDispatch, useAppSelector } from "./app/store"
 import LinearProgress from "@mui/material/LinearProgress"
 import AppBar from "@mui/material/AppBar/AppBar"
 import Menu from "@mui/icons-material/Menu"
@@ -13,9 +11,11 @@ import Container from "@mui/material/Container"
 import Box from "@mui/material/Box"
 import ErrorSnackbar from "./common/components/errorSnackbar/ErrorSnackbar"
 import { Outlet } from "react-router-dom"
-import { logoutTC, meTC } from "features/auth/model/authSlice"
 import CircularProgress from "@mui/material/CircularProgress"
 import { selectAppIsInitialized, selectAppIsLoggedIn, selectStatusApp } from "app/app.selectors"
+import { useAppSelector } from "common/hooks/useAppSelector"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { authThunks, initializeAppTC, } from "features/auth/model/authSlice"
 
 export function AppWithRedux() {
   const status = useAppSelector(selectStatusApp)
@@ -25,10 +25,10 @@ export function AppWithRedux() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(meTC())
+    dispatch(initializeAppTC())
   }, [])
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    dispatch(authThunks.logoutTC())
   }
   if (!isInitialized) {
     return (
