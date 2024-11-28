@@ -6,6 +6,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { appActions } from "app/appSlice"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { authAPI } from "../api/authApi"
+import { ResaultCode } from "common/enums/enums"
 
 const slice = createSlice({
   name: "auth",
@@ -32,19 +33,23 @@ const slice = createSlice({
 })
 
 // thunks
-const loginTC = createAppAsyncThunk<boolean, { value: LoginData }>(
+const loginTC = createAppAsyncThunk<boolean, LoginData>(
   `${slice.name}/loginTC`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
     dispatch(appActions.setStatus("loading"))
     try {
-      const res = await authAPI.login(arg.value)
-      if (res.data.resultCode === 0) {
+      const res = await authAPI.login(arg)
+      if (res.data.resultCode === ResaultCode.success) {
         dispatch(appActions.setStatus("succeeded"))
         return true
       } else {
-        handleServerAppError(res.data, dispatch)
-        return rejectWithValue(null)
+        // ❗ Если у нас fieldsErrors есть значит мы будем отображать эти ошибки
+        // в конкретном поле в компоненте (пункт 7)
+        // ❗ Если у нас fieldsErrors нету значит отобразим ошибку глобально
+        const isShowAppError = !res.data.fieldsErrors.length
+        handleServerAppError(res.data, dispatch, isShowAppError)
+        return rejectWithValue(res.data)
       }
     } catch (err) {
       handleServerNetworkError(err, dispatch)
@@ -59,7 +64,7 @@ const logoutTC = createAppAsyncThunk<any, undefined>(`${slice.name}/logoutTC`,
   try {
     dispatch(appActions.setStatus("loading"))   
     const res = await authAPI.logout()
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResaultCode.success) {
       dispatch(appActions.setStatus("succeeded"))
       dispatch(unloadTodolists())
       return false
@@ -79,11 +84,11 @@ export const initializeAppTC = createAppAsyncThunk<any, undefined>(`${slice.name
     try {
       dispatch(appActions.setStatus("loading"))
       const res = await authAPI.me()
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResaultCode.success) {
         dispatch(appActions.setStatus("succeeded"))
         return true
-      } else {
-        // handleServerAppError(res.data, dispatch)
+      } else {        
+        handleServerAppError(res.data, dispatch, false);
         return rejectWithValue(null)
       }
     } catch (e) {
@@ -96,53 +101,6 @@ export const initializeAppTC = createAppAsyncThunk<any, undefined>(`${slice.name
   }
 )
 
-// export const loginTC = (value: LoginData) => async (dispatch: Dispatch) => {
-//   dispatch(appActions.setStatus("loading"))
-//   try {
-//     const res = await authAPI.login(value)
-//     if (res.data.resultCode === 0) {
-//       dispatch(authActions.setIsLoggedIn(true))
-//       dispatch(appActions.setStatus("succeeded"))
-//     } else {
-//       handleServerAppError(res.data, dispatch)
-//     }
-//   } catch (e) {
-//     handleServerNetworkError(e as { message: string }, dispatch)
-//   }
-// }
-
-// export const logoutTC = () => async (dispatch: Dispatch) => {
-//   dispatch(appActions.setStatus("loading"))
-//   try {
-//     const res = await authAPI.logout()
-//     if (res.data.resultCode === 0) {
-//       dispatch(authActions.setIsLoggedIn(false))
-//       dispatch(appActions.setStatus("succeeded"))
-//       dispatch(unloadTodolists())
-//     } else {
-//       handleServerAppError(res.data, dispatch)
-//     }
-//   } catch (e) {
-//     handleServerNetworkError(e as { message: string }, dispatch)
-//   }
-// }
-
-// export const initializeApp = () => async (dispatch: Dispatch) => {
-//   dispatch(appActions.setStatus("loading"))
-//   try {
-//     const res = await authAPI.me()
-//     if (res.data.resultCode === 0) {
-//       dispatch(authActions.setIsLoggedIn(true))
-//       dispatch(appActions.setStatus("succeeded"))
-//     } else {
-//       handleServerAppError(res.data, dispatch)
-//     }
-//   } catch (e) {
-//     handleServerNetworkError(e as { message: string }, dispatch)
-//   } finally {
-//     dispatch(appActions.setIsInitialized(true))
-//   }
-// }  
 
 //reducer
 export const authReducer = slice.reducer
