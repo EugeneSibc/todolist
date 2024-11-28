@@ -1,5 +1,6 @@
 import axios from "axios"
 import { AxiosResponse } from "axios"
+import { BaseResponseType } from "common/types/types"
 import { LoginData } from "features/auth/ui/Login"
 
 export type TodolistData = {
@@ -13,11 +14,11 @@ export type TodolistData = {
     email: string
     login: string
   }
-  export type ResponseType<D = {}> = {
-    resultCode: number
-    messages: string[]
-    data: D
-  }
+  // export type ResponseType<D = {}> = {
+  //   resultCode: number
+  //   messages: string[]
+  //   data: D
+  // }
   
 
 const instanse = axios.create({
@@ -30,16 +31,16 @@ const instanse = axios.create({
 
 export const authAPI = {
     me() {
-      return instanse.get<ResponseType<AuthType>, AxiosResponse<ResponseType<AuthType>>>(`auth/me`)
+      return instanse.get<BaseResponseType<AuthType>, AxiosResponse<BaseResponseType<AuthType>>>(`auth/me`)
     },
     login(data: LoginData) {
       return instanse.post<
-        ResponseType<{ userId: number }>,
-        AxiosResponse<ResponseType<{ userId: number }>>,
+      BaseResponseType<{ userId: number }>,
+        AxiosResponse<BaseResponseType<{ userId: number }>>,
         LoginData
       >(`auth/login`, data)
     },
     logout() {
-      return instanse.delete<ResponseType>(`auth/login`)
+      return instanse.delete<BaseResponseType>(`auth/login`)
     },
   }
