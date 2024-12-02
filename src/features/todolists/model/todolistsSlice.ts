@@ -1,8 +1,10 @@
 import { TodolistData, todolistsAPI } from "features/todolists/api/todolists-api"
 import { appActions, RequestStatusType } from "app/appSlice"
-import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
+import { handleServerNetworkError } from "common/utils/handle-server-network-error"
+import { handleServerAppError } from "common/utils/handle-server-app-error"
+import { thunkTryCatch } from "common/utils/thunk-try-catch"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -85,20 +87,15 @@ const addTodolistTC = createAppAsyncThunk<{ todolist: TodolistData }, { title: s
   `${slice.name}/addTodolist`,
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    try {
-      dispatch(appActions.setStatus("loading"))
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await todolistsAPI.createTodolist(arg)
       if (res.data.resultCode === ResultCode.success) {
-        dispatch(appActions.setStatus("succeeded"))
         return { todolist: res.data.data.item }
       } else {
         handleServerAppError(res.data, dispatch)
         return rejectWithValue(null)
       }
-    } catch (err) {
-      handleServerNetworkError(err, dispatch)
-      return rejectWithValue(null)
-    }
+    })     
   },
 )
 
