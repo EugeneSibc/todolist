@@ -15,7 +15,7 @@ import CircularProgress from "@mui/material/CircularProgress"
 import { selectAppIsInitialized, selectAppIsLoggedIn, selectStatusApp } from "app/app.selectors"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { authThunks, initializeAppTC, } from "features/auth/model/authSlice"
+import { authThunks } from "features/auth/model/authSlice"
 
 export function AppWithRedux() {
   const status = useAppSelector(selectStatusApp)
@@ -25,7 +25,7 @@ export function AppWithRedux() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(initializeAppTC())
+    dispatch(authThunks.initializeAppTC())
   }, [])
   const logoutHandler = () => {
     dispatch(authThunks.logoutTC())

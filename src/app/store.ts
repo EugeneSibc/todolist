@@ -16,8 +16,7 @@ const rootReducer = combineReducers({
 // export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
 export const store = configureStore({ reducer: rootReducer })
 
-export type AppRootStateType = ReturnType<typeof store.getState>
-export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, Action>
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>
 
 // export const useAppDispatch:AppThunkDispatch = useDispatch()

@@ -1,7 +1,5 @@
-import { Dispatch } from "redux"
-import { ResponseType } from "features/todolists/api/todolists-api"
 import { appActions } from "app/appSlice"
-import { AppThunkDispatch } from "app/store"
+import { AppDispatch } from "app/store"
 import axios from "axios"
 
 /**
@@ -12,24 +10,11 @@ import axios from "axios"
  */
 
 // generic function
-export const handleServerAppError = <T>(
-  data: ResponseType<T>,
-  dispatch: Dispatch,
-  showError: boolean = true
-) => {
-  if(showError){
-    if (data.messages.length) {
-      dispatch(appActions.setError(data.messages[0]))
-    } else {
-      dispatch(appActions.setError("Some error occurred"))
-    }    
-  }
-  dispatch(appActions.setStatus("failed"))  
-}
+
 
 export const handleServerNetworkError = (
   err: unknown,
-  dispatch: AppThunkDispatch,
+  dispatch: AppDispatch,
 ): void => {
   let errorMessage = "Some error occurred"
 
