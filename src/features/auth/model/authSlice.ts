@@ -1,5 +1,4 @@
 import { Dispatch } from "redux"
-import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils"
 import { LoginData } from "features/auth/ui/Login"
 import { unloadTodolists } from "features/todolists/model/todolistsSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
@@ -7,6 +6,9 @@ import { appActions } from "app/appSlice"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { authAPI } from "../api/authApi"
 import { ResaultCode } from "common/enums/enums"
+import { handleServerAppError } from "common/utils/handle-server-app-error"
+import { handleServerNetworkError } from "common/utils/handle-server-network-error"
+import { thunkTryCatch } from "common/utils/thunk-try-catch"
 
 const slice = createSlice({
   name: "auth",
@@ -78,29 +80,20 @@ const logoutTC = createAppAsyncThunk<any, undefined>(`${slice.name}/logoutTC`,
   }
 })
 
-export const initializeAppTC = createAppAsyncThunk<any, undefined>(`${slice.name}/initializeAppTC`,
-  async (_, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    try {
-      dispatch(appActions.setStatus("loading"))
-      const res = await authAPI.me()
-      if (res.data.resultCode === ResaultCode.success) {
-        dispatch(appActions.setStatus("succeeded"))
-        return true
-      } else {        
-        handleServerAppError(res.data, dispatch, false);
-        return rejectWithValue(null)
-      }
-    } catch (e) {
-      handleServerNetworkError(e as { message: string }, dispatch)
-      return rejectWithValue(null)
-    } finally {
-      dispatch(appActions.setStatus("succeeded"))
-      dispatch(appActions.setIsInitialized(true))
-    }
-  }
-)
 
+const initializeAppTC = createAppAsyncThunk<boolean, undefined>('auth/initializeApp', (_, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  return thunkTryCatch(thunkAPI, async () => {
+    const res = await authAPI.me();
+    if (res.data.resultCode === 0) {
+      return true;
+    } else {
+      return rejectWithValue(null);
+    }
+  }).finally(() => {
+    dispatch(appActions.setIsInitialized(true));
+  });
+});
 
 //reducer
 export const authReducer = slice.reducer
